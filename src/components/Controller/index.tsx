@@ -3,7 +3,7 @@ import * as Styled from './controller.styles';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { percentToDecimal } from '../../helpers/percentToDecimal';
-import { dividendDataSateTypes } from '../../types';
+import { dividendDataSateTypes, inputTypes, inputDate } from '../../types';
 import { isAllDataFilled } from '../../helpers/isAllDataFilled';
 
 export const Controller = () => {
@@ -14,19 +14,12 @@ export const Controller = () => {
     currency: 'USD',
   });
 
-  const handleDividendValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDividendData((prev) => ({ ...prev, ammount: +e.target.value }));
-  };
-
-  const handleDividentTax = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDividendData((prev) => ({ ...prev, tax: percentToDecimal(e.target.value) }));
-  };
-
-  const handleDividendCurrency = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setDividendData((prev) => ({ ...prev, currency: e.target.value }));
-  };
-
-  const handleDividendDate = (date: Date | null) => {
+  const handleDividentData = (e?: inputTypes, date?: inputDate) => {
+    e &&
+      setDividendData((prev) => ({
+        ...prev,
+        [e.target.id]: e.target.id === 'tax' ? percentToDecimal(e.target.value) : e.target.value,
+      }));
     date && setDividendData((prev) => ({ ...prev, date }));
   };
 
@@ -37,29 +30,29 @@ export const Controller = () => {
 
   return (
     <Styled.ControllerBox>
-      <h1>This tool will help you to calculate dividents</h1>
+      <h1>This tool will help you to calculate dividents for Poland tax form</h1>
       <form onSubmit={handleTaxCalucation}>
         <div>
           <label>
             Divident ammount <br />
-            <input type="number" placeholder="ammount" onChange={handleDividendValue} />
+            <input type="number" placeholder="ammount" onChange={handleDividentData} id="ammount" />
           </label>
         </div>
         <div>
           <label>
             Divident tax in %<br />
-            <input type="number" placeholder="ammount" onChange={handleDividentTax} />
+            <input type="number" placeholder="ammount" onChange={handleDividentData} id="tax" />
           </label>
         </div>
         <div>
-          <select name="currency" id="" onChange={handleDividendCurrency}>
+          <select name="currency" onChange={handleDividentData} id="date">
             <option value="USD">USD</option>
             <option value="EUR">EUR</option>
           </select>
         </div>
         <div>
           <p>Set divident payment day</p>
-          <DatePicker selected={dividendData.date} onChange={handleDividendDate} />
+          <DatePicker selected={dividendData.date} onChange={(date) => handleDividentData(null, date)} />
         </div>
         <div>
           <button disabled={isAllDataFilled(dividendData)}>calculate divident to pay</button>
