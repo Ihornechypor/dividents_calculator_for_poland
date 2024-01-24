@@ -27,6 +27,7 @@ export const Controller = () => {
   });
   const [dividendCalculated, setDividendCalculated] = useState<boolean>(false);
   const [dividendsTotal, setDividendsTotal] = useState<any[]>([]);
+  const [dividendsFinal, setDividendsFinal] = useState<any[]>([]);
 
   const handleDividentData = (e?: inputTypes, date?: dateFormat) => {
     e &&
@@ -35,6 +36,10 @@ export const Controller = () => {
         [e.target.id]: e.target.value,
       }));
     date && setDividendData((prev) => ({ ...prev, date }));
+  };
+
+  const handleDividendsFinal = () => {
+    console.log(dividendsTotal);
   };
 
   const handleDividendCalculations = (data: apiData) => {
@@ -48,9 +53,8 @@ export const Controller = () => {
     const taxAmmountForeignToPay = taxHigherThenForeig ? 0 : taxAmmountLocal - taxAmmountForeignPaid;
     const taxNeedToRepay = taxHigherThenForeig ? 0 : taxAmmountForeignToPay * data.currencyRate;
     const taxNeedToRepayFixed = taxHigherThenForeig ? 0 : taxNeedToRepay.toFixed(TO_FIXED_VALUE);
-    // const
 
-    const taxTodal = {
+    const taxTotal = {
       ...dividendData,
       ...data,
       taxBaseLocal,
@@ -60,11 +64,10 @@ export const Controller = () => {
       taxNeedToRepayFixed,
     };
 
-    console.log(taxTodal);
-
     setDividendsTotal(() => {
-      return [{ ...taxTodal }];
+      return [{ ...taxTotal }];
     });
+    handleDividendsFinal();
   };
 
   const fetchData = async (): Promise<void> => {
