@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { percentToDecimal } from '../../helpers/percentToDecimal';
 import { dividendDataSateTypes, inputTypes, dateFormat, apiData } from '../../types';
 import { isAllDataFilled } from '../../helpers/isAllDataFilled';
-import { POLAND_TAX_RATE, API_DATE_FORMAT } from '../../consts';
+import { POLAND_TAX_RATE, API_DATE_FORMAT, TO_FIXED_VALUE } from '../../consts';
 import { getCurrecyRate } from '../../api/getCurrencyRate';
 import { reformatDate } from '../../helpers/reformatDate';
 import { updateSubDays } from '../../helpers/updateSubDays';
@@ -44,6 +44,7 @@ export const Controller = () => {
     const taxAmmountForeignPaid = dividendData.ammount * taxNumToPercent;
     const taxAmmountForeignToPay = taxAmmountLocal - taxAmmountForeignPaid;
     const taxNeedToRepay = taxAmmountForeignToPay * data.currencyRate;
+    const taxNeedToRepayFixed = taxNeedToRepay.toFixed(TO_FIXED_VALUE);
     // const
 
     const taxTodal = {
@@ -53,7 +54,7 @@ export const Controller = () => {
       taxAmmountLocal,
       taxAmmountForeignPaid,
       taxAmmountForeignToPay,
-      taxNeedToRepay,
+      taxNeedToRepayFixed,
     };
 
     console.log(taxTodal);
@@ -201,7 +202,7 @@ export const Controller = () => {
                       <td>{item.taxAmmountLocal}</td>
                       <td>{item.taxAmmountForeignPaid}</td>
                       <td>{item.taxAmmountForeignToPay}</td>
-                      <td>{item.taxNeedToRepay}</td>
+                      <td>{item.taxNeedToRepayFixed}</td>
                     </tr>
                   ))
                 : null}
