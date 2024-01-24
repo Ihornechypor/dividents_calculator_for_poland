@@ -3,30 +3,30 @@ import * as Styled from './controller.styles';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { percentToDecimal } from '../../helpers/percentToDecimal';
-import { dividendDataSateTypes, inputTypes, dateFormat, apiDate } from '../../types';
+import { dividendDataSateTypes, inputTypes, dateFormat, apiData } from '../../types';
 import { isAllDataFilled } from '../../helpers/isAllDataFilled';
-import { API_DATE_FORMAT } from '../../consts';
+import { POLAND_TAX_RATE, API_DATE_FORMAT } from '../../consts';
 import { getCurrecyRate } from '../../api/getCurrencyRate';
 import { reformatDate } from '../../helpers/reformatDate';
 import { updateSubDays } from '../../helpers/updateSubDays';
 import { minusDay } from '../../helpers/minusDay';
+import { nanoid } from 'nanoid';
 
 const initialDividendState = {
+  id: nanoid(),
+  company: '',
   ammount: 0,
   tax: 0,
   date: null,
   currency: 'usd',
 };
 
-const initialDividendCurrencyData = { currencyDate: null, currencyRate: 0 };
-
 export const Controller = () => {
   const [dividendData, setDividendData] = useState<dividendDataSateTypes>({
     ...initialDividendState,
   });
-
-  const [dividendCurrencyData, setDividendCurrencyData] = useState<apiDate>({ ...initialDividendCurrencyData });
   const [dividendCalculated, setDividendCalculated] = useState<boolean>(false);
+  const [dividendsTotal, setDividendsTotal] = useState<any[]>([]);
 
   const handleDividentData = (e?: inputTypes, date?: dateFormat) => {
     e &&
@@ -37,6 +37,32 @@ export const Controller = () => {
     date && setDividendData((prev) => ({ ...prev, date }));
   };
 
+  const handleDividendCalculations = (data: apiData) => {
+    const taxNumToPercent = percentToDecimal(dividendData.tax);
+    const taxBaseLocal = dividendData.ammount * data.currencyRate;
+    const taxAmmountLocal = dividendData.ammount * POLAND_TAX_RATE;
+    const taxAmmountForeignPaid = dividendData.ammount * taxNumToPercent;
+    const taxAmmountForeignToPay = taxAmmountLocal - taxAmmountForeignPaid;
+    const taxNeedToRepay = taxAmmountForeignToPay * data.currencyRate;
+    // const
+
+    const taxTodal = {
+      ...dividendData,
+      ...data,
+      taxBaseLocal,
+      taxAmmountLocal,
+      taxAmmountForeignPaid,
+      taxAmmountForeignToPay,
+      taxNeedToRepay,
+    };
+
+    console.log(taxTodal);
+
+    setDividendsTotal(() => {
+      return [{ ...taxTodal }];
+    });
+  };
+
   const fetchData = async (): Promise<void> => {
     let currentDate = minusDay(dividendData.date, 1);
     let retryCount = 0;
@@ -45,8 +71,8 @@ export const Controller = () => {
         const data = await getCurrecyRate(currentDate, dividendData.currency);
 
         if (data.currencyDate) {
-          setDividendCurrencyData(data);
           setDividendCalculated(true);
+          handleDividendCalculations(data);
           break;
         } else {
           console.error('Empty or invalid API response');
@@ -54,7 +80,7 @@ export const Controller = () => {
       } catch (error) {
         console.log(currentDate);
         const subDay = updateSubDays(currentDate, API_DATE_FORMAT, 1);
-        currentDate = reformatDate(subDay, API_DATE_FORMAT);
+        currentDate = subDay && reformatDate(subDay, API_DATE_FORMAT);
 
         retryCount += 1;
       }
@@ -69,12 +95,24 @@ export const Controller = () => {
   const handleReset = () => {
     setDividendCalculated(false);
     setDividendData(initialDividendState);
-    setDividendCurrencyData(initialDividendCurrencyData);
   };
 
   return (
     <Styled.ControllerBox>
       <form onSubmit={handleTaxCalucation}>
+        <div>
+          <label>
+            Divident company <br />
+            <input
+              type="text"
+              placeholder="Divident company"
+              onChange={handleDividentData}
+              value={dividendData.company}
+              id="company"
+              disabled={dividendCalculated}
+            />
+          </label>
+        </div>
         <div>
           <label>
             Divident ammount <br />
@@ -128,15 +166,47 @@ export const Controller = () => {
       <br />
       <div style={{ border: '1px solid red', padding: 20 }}>
         <div>
-          <p>data you provided</p>
+          <p>Data</p>
         </div>
         <div>
-          {Object.entries(dividendData).map(([key, value]) => (
-            <p key={key}>{`${key}: ${value}`}</p>
-          ))}
-          {Object.entries(dividendCurrencyData).map(([key, value]) => (
-            <p key={key}>{`${key}: ${value}`}</p>
-          ))}
+          <table cellPadding={2} border={2}>
+            <thead>
+              <tr>
+                <th>Company name</th>
+                <th>Divident price in foreign currency</th>
+                <th>Currency</th>
+                <th>Foreign tax</th>
+                <th>Divident date</th>
+                <th>Local currency date</th>
+                <th>Local currency rate (PLN)</th>
+                <th>Local tax base (PLN)</th>
+                <th>Local tax ammount (Foreign currecy)</th>
+                <th>Foreign tax payed (Foreign currecy)</th>
+                <th>Foreign taxt need to pay (Foreign currecy)</th>
+                <th>Local taxt need to pay (PLN)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dividendsTotal.length > 0
+                ? dividendsTotal.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.company}</td>
+                      <td>{item.ammount}</td>
+                      <td>{item.currency}</td>
+                      <td>{item.tax}</td>
+                      <td>{reformatDate(item.date, API_DATE_FORMAT)}</td>
+                      <td>{item.currencyDate}</td>
+                      <td>{item.currencyRate}</td>
+                      <td>{item.taxBaseLocal}</td>
+                      <td>{item.taxAmmountLocal}</td>
+                      <td>{item.taxAmmountForeignPaid}</td>
+                      <td>{item.taxAmmountForeignToPay}</td>
+                      <td>{item.taxNeedToRepay}</td>
+                    </tr>
+                  ))
+                : null}
+            </tbody>
+          </table>
         </div>
       </div>
     </Styled.ControllerBox>

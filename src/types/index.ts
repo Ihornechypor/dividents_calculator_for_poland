@@ -3,6 +3,8 @@ export type inputTypes = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent
 export type dateFormat = Date | null;
 
 export type dividendDataSateTypes = {
+  id: string;
+  company: string;
   ammount: number;
   tax: number;
   currency: string;
@@ -15,7 +17,7 @@ export type apiTypes = {
   currency: string;
 };
 
-export type apiDate = {
+export type apiData = {
   currencyRate: number | 0;
   currencyDate: string | null;
 };

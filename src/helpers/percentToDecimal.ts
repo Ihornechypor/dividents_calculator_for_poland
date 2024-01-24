@@ -1,1 +1,1 @@
-export const percentToDecimal = (percentStr: string) => parseFloat(percentStr) / 100;
+export const percentToDecimal = (percent: number) => percent / 100;
