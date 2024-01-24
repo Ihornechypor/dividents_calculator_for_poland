@@ -32,7 +32,7 @@ export const Controller = () => {
     e &&
       setDividendData((prev) => ({
         ...prev,
-        [e.target.id]: e.target.id === 'tax' ? percentToDecimal(e.target.value) : e.target.value,
+        [e.target.id]: e.target.value,
       }));
     date && setDividendData((prev) => ({ ...prev, date }));
   };
@@ -82,6 +82,7 @@ export const Controller = () => {
               type="number"
               placeholder="ammount"
               onChange={handleDividentData}
+              value={dividendData.ammount}
               id="ammount"
               disabled={dividendCalculated}
             />
@@ -94,6 +95,7 @@ export const Controller = () => {
               type="number"
               placeholder="ammount"
               onChange={handleDividentData}
+              value={dividendData.tax}
               id="tax"
               disabled={dividendCalculated}
             />
@@ -115,7 +117,9 @@ export const Controller = () => {
           />
         </div>
         <div>
-          <button disabled={isAllDataFilled(dividendData)}>calculate and add divident to pay</button>
+          <button disabled={isAllDataFilled(dividendData) || dividendCalculated}>
+            calculate and add divident to pay
+          </button>
         </div>
       </form>
       <button onClick={handleReset} disabled={!dividendCalculated}>
