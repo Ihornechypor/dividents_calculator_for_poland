@@ -39,12 +39,15 @@ export const Controller = () => {
 
   const handleDividendCalculations = (data: apiData) => {
     const taxNumToPercent = percentToDecimal(dividendData.tax);
+    const taxHigherThenForeig = taxNumToPercent >= POLAND_TAX_RATE;
+
     const taxBaseLocal = dividendData.ammount * data.currencyRate;
     const taxAmmountLocal = dividendData.ammount * POLAND_TAX_RATE;
-    const taxAmmountForeignPaid = dividendData.ammount * taxNumToPercent;
-    const taxAmmountForeignToPay = taxAmmountLocal - taxAmmountForeignPaid;
-    const taxNeedToRepay = taxAmmountForeignToPay * data.currencyRate;
-    const taxNeedToRepayFixed = taxNeedToRepay.toFixed(TO_FIXED_VALUE);
+
+    const taxAmmountForeignPaid = taxHigherThenForeig ? 0 : dividendData.ammount * taxNumToPercent;
+    const taxAmmountForeignToPay = taxHigherThenForeig ? 0 : taxAmmountLocal - taxAmmountForeignPaid;
+    const taxNeedToRepay = taxHigherThenForeig ? 0 : taxAmmountForeignToPay * data.currencyRate;
+    const taxNeedToRepayFixed = taxHigherThenForeig ? 0 : taxNeedToRepay.toFixed(TO_FIXED_VALUE);
     // const
 
     const taxTodal = {
