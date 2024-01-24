@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Main } from './components/Layout';
 import GlobalStyle from './styles/globalStyles';
 import { Controller } from './components/Controller';
@@ -8,6 +7,7 @@ function App() {
     <>
       <GlobalStyle />
       <Main>
+        <h1>This tool will help you to calculate dividents for Poland tax form</h1>
         <Controller />
       </Main>
     </>
