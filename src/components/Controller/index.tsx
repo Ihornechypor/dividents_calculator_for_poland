@@ -16,7 +16,7 @@ import { format } from 'date-fns';
 const initialDividendState = {
   company: '',
   ammount: 0,
-  tax: 15,
+  tax: 0,
   date: null,
   currency: 'usd',
 };
@@ -77,6 +77,12 @@ export const Controller = () => {
 
   useEffect(() => {
     console.log(dividendsTotal);
+    const totalTax = dividendsTotal.reduce((sum, item) => sum + item.taxLocal, 0).toFixed(TO_FIXED_VALUE);
+    const totalTaxPaid = dividendsTotal.reduce((sum, item) => sum + item.taxPaidLocal, 0).toFixed(TO_FIXED_VALUE);
+    const totalNeedToPay = dividendsTotal
+      .reduce((sum, item) => sum + item.taxNeedToPayLocal, 0)
+      .toFixed(TO_FIXED_VALUE);
+    setDividendsReport({ totalTax, totalTaxPaid, totalNeedToPay });
   }, [dividendsTotal]);
 
   const fetchData = async (): Promise<void> => {
@@ -115,7 +121,10 @@ export const Controller = () => {
     setDividendData(initialDividendState);
   };
 
-  const handleRemove = (id: string) => setDividendsTotal((prev) => prev.filter((item) => item.id !== id));
+  const handleRemove = (id: string) => {
+    setDividendsTotal((prev) => prev.filter((item) => item.id !== id));
+    setDividendCalculated(false);
+  };
 
   return (
     <Styled.ControllerBox>
