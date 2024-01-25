@@ -7,7 +7,7 @@ function App() {
     <>
       <GlobalStyle />
       <Main>
-        <h1>This tool will help you to calculate dividents for Poland tax form</h1>
+        <h1>This tool will help you to calculate dividends for Poland tax form</h1>
         <Controller />
       </Main>
     </>
