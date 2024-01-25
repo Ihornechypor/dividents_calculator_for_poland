@@ -3,7 +3,7 @@ import * as Styled from './controller.styles';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { percentToDecimal } from '../../helpers/percentToDecimal';
-import { dividendDataSateTypes, inputTypes, dateFormat, apiData } from '../../types';
+import { dividendDataSateTypes, inputTypes, dateFormat, apiData, dividendsReportTypes } from '../../types';
 import { isAllDataFilled } from '../../helpers/isAllDataFilled';
 import { POLAND_TAX_RATE, API_DATE_FORMAT, TO_FIXED_VALUE } from '../../consts';
 import { getCurrecyRate } from '../../api/getCurrencyRate';
@@ -11,6 +11,7 @@ import { reformatDate } from '../../helpers/reformatDate';
 import { updateSubDays } from '../../helpers/updateSubDays';
 import { minusDay } from '../../helpers/minusDay';
 import { nanoid } from 'nanoid';
+import { format } from 'date-fns';
 
 const initialDividendState = {
   company: '',
@@ -27,6 +28,11 @@ export const Controller = () => {
   const [dividendCalculated, setDividendCalculated] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [dividendsTotal, setDividendsTotal] = useState<any[]>([]);
+  const [dividendsReport, setDividendsReport] = useState<dividendsReportTypes>({
+    totalTax: 0,
+    totalTaxPaid: 0,
+    totalNeedToPay: 0,
+  });
 
   const handleDividentData = (e?: inputTypes, date?: dateFormat) => {
     e &&
@@ -36,10 +42,6 @@ export const Controller = () => {
       }));
     date && setDividendData((prev) => ({ ...prev, date }));
   };
-
-  useEffect(() => {
-    console.log(dividendsTotal);
-  }, [dividendsTotal]);
 
   const handleDividendCalculations = (data: apiData) => {
     const taxNumToPercent = percentToDecimal(dividendData.tax);
@@ -73,6 +75,10 @@ export const Controller = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(dividendsTotal);
+  }, [dividendsTotal]);
+
   const fetchData = async (): Promise<void> => {
     let currentDate = minusDay(dividendData.date, 1);
     let retryCount = 0;
@@ -89,7 +95,6 @@ export const Controller = () => {
           console.error('Empty or invalid API response');
         }
       } catch (error) {
-        console.log(currentDate);
         const subDay = updateSubDays(currentDate, API_DATE_FORMAT, 1);
         currentDate = subDay && reformatDate(subDay, API_DATE_FORMAT);
 
@@ -109,6 +114,8 @@ export const Controller = () => {
     setDividendCalculated(false);
     setDividendData(initialDividendState);
   };
+
+  const handleRemove = (id: string) => setDividendsTotal((prev) => prev.filter((item) => item.id !== id));
 
   return (
     <Styled.ControllerBox>
@@ -169,20 +176,21 @@ export const Controller = () => {
         </div>
         <div>
           <button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
-            calculate and add divident to pay
+            Calculate divident
           </button>
         </div>
       </form>
       <button onClick={handleReset} disabled={!dividendCalculated}>
-        Reset form
+        Add new dividend
       </button>
       <br />
 
       <div>
         <p>Total</p>
         <ul>
-          <li>Dividend incum without tax (PLN)</li>
-          <li>Dividend need to be paid (PLN)</li>
+          <li>Dividend tax (Line 45 in PIT-38) {dividendsReport.totalTax}</li>
+          <li>Tax paid in foreign country (Line 46 in PIT-38) {dividendsReport.totalTaxPaid}</li>
+          <li>Tax you need to aditionally pay (Line 47 in PIT-38) {dividendsReport.totalNeedToPay}</li>
         </ul>
       </div>
       <div style={{ border: '1px solid red', padding: 20 }}>
@@ -206,7 +214,7 @@ export const Controller = () => {
                 <th>Local need to pay (PLN)</th>
                 <th>Local tax ammount (Foreign currecy)</th>
                 <th>Foreign tax payed (Foreign currecy)</th>
-                <th>Foreign taxt need to pay (Foreign currecy)</th>
+                <th colSpan={2}>Foreign taxt need to pay (Foreign currecy)</th>
               </tr>
             </thead>
             <tbody>
@@ -229,6 +237,9 @@ export const Controller = () => {
                       <td>{item.taxAmmountLocal.toFixed(TO_FIXED_VALUE)}</td>
                       <td>{item.taxAmmountForeignPaid.toFixed(TO_FIXED_VALUE)}</td>
                       <td>{item.taxAmmountForeignToPay.toFixed(TO_FIXED_VALUE)}</td>
+                      <td style={{ textAlign: 'center' }}>
+                        <button onClick={() => handleRemove(item.id)}>X</button>
+                      </td>
                     </tr>
                   ))
                 : null}

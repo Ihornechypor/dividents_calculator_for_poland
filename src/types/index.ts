@@ -10,6 +10,12 @@ export type dividendDataSateTypes = {
   date: dateFormat;
 };
 
+export type dividendsReportTypes = {
+  totalTax: number;
+  totalTaxPaid: number;
+  totalNeedToPay: number;
+};
+
 export type apiTypes = {
   date: string;
   formatedDate: string;
