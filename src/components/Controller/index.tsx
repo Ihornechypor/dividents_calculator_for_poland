@@ -11,8 +11,6 @@ import { reformatDate } from '../../helpers/reformatDate';
 import { updateSubDays } from '../../helpers/updateSubDays';
 import { minusDay } from '../../helpers/minusDay';
 import { nanoid } from 'nanoid';
-import { format } from 'date-fns';
-
 const initialDividendState = {
   company: '',
   ammount: 0,

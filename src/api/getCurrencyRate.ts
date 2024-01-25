@@ -1,5 +1,3 @@
-import { apiTypes } from '../types';
-
 export const getCurrecyRate = async (date: string | null, currency: string) => {
   try {
     const rsp = await fetch(`http://api.nbp.pl/api/exchangerates/rates/a/${currency}/${date}/?format=json`);
