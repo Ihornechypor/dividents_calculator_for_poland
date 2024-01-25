@@ -3,7 +3,6 @@ export type inputTypes = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent
 export type dateFormat = Date | null;
 
 export type dividendDataSateTypes = {
-  id: string;
   company: string;
   ammount: number;
   tax: number;

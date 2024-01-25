@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Styled from './controller.styles';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -13,10 +13,9 @@ import { minusDay } from '../../helpers/minusDay';
 import { nanoid } from 'nanoid';
 
 const initialDividendState = {
-  id: nanoid(),
   company: '',
   ammount: 0,
-  tax: 0,
+  tax: 15,
   date: null,
   currency: 'usd',
 };
@@ -26,8 +25,8 @@ export const Controller = () => {
     ...initialDividendState,
   });
   const [dividendCalculated, setDividendCalculated] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [dividendsTotal, setDividendsTotal] = useState<any[]>([]);
-  const [dividendsFinal, setDividendsFinal] = useState<any[]>([]);
 
   const handleDividentData = (e?: inputTypes, date?: dateFormat) => {
     e &&
@@ -38,36 +37,40 @@ export const Controller = () => {
     date && setDividendData((prev) => ({ ...prev, date }));
   };
 
-  const handleDividendsFinal = () => {
+  useEffect(() => {
     console.log(dividendsTotal);
-  };
+  }, [dividendsTotal]);
 
   const handleDividendCalculations = (data: apiData) => {
     const taxNumToPercent = percentToDecimal(dividendData.tax);
-    const taxHigherThenForeig = taxNumToPercent >= POLAND_TAX_RATE;
+    const taxBasePercents = taxNumToPercent >= POLAND_TAX_RATE;
 
     const taxBaseLocal = dividendData.ammount * data.currencyRate;
-    const taxAmmountLocal = dividendData.ammount * POLAND_TAX_RATE;
+    const taxLocal = taxBaseLocal * POLAND_TAX_RATE;
+    const taxPaidLocal = taxBaseLocal * taxNumToPercent;
+    const taxNeedToPayLocal = taxNumToPercent >= POLAND_TAX_RATE ? 0 : taxLocal - taxPaidLocal;
 
-    const taxAmmountForeignPaid = taxHigherThenForeig ? 0 : dividendData.ammount * taxNumToPercent;
-    const taxAmmountForeignToPay = taxHigherThenForeig ? 0 : taxAmmountLocal - taxAmmountForeignPaid;
-    const taxNeedToRepay = taxHigherThenForeig ? 0 : taxAmmountForeignToPay * data.currencyRate;
-    const taxNeedToRepayFixed = taxHigherThenForeig ? 0 : taxNeedToRepay.toFixed(TO_FIXED_VALUE);
+    const taxAmmountLocal = dividendData.ammount * POLAND_TAX_RATE;
+    const taxAmmountForeignPaid = dividendData.ammount * taxNumToPercent;
+    const taxAmmountForeignToPay = taxNumToPercent >= POLAND_TAX_RATE ? 0 : taxAmmountLocal - taxAmmountForeignPaid;
 
     const taxTotal = {
+      id: nanoid(),
       ...dividendData,
       ...data,
+      taxBasePercents,
       taxBaseLocal,
+      taxLocal,
+      taxPaidLocal,
+      taxNeedToPayLocal,
       taxAmmountLocal,
       taxAmmountForeignPaid,
       taxAmmountForeignToPay,
-      taxNeedToRepayFixed,
     };
 
-    setDividendsTotal(() => {
-      return [{ ...taxTotal }];
+    setDividendsTotal((prev) => {
+      return [...prev, { ...taxTotal }];
     });
-    handleDividendsFinal();
   };
 
   const fetchData = async (): Promise<void> => {
@@ -80,6 +83,7 @@ export const Controller = () => {
         if (data.currencyDate) {
           setDividendCalculated(true);
           handleDividendCalculations(data);
+          setIsFetching(false);
           break;
         } else {
           console.error('Empty or invalid API response');
@@ -96,10 +100,12 @@ export const Controller = () => {
 
   const handleTaxCalucation = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsFetching(true);
     fetchData();
   };
 
   const handleReset = () => {
+    setIsFetching(false);
     setDividendCalculated(false);
     setDividendData(initialDividendState);
   };
@@ -162,7 +168,7 @@ export const Controller = () => {
           />
         </div>
         <div>
-          <button disabled={isAllDataFilled(dividendData) || dividendCalculated}>
+          <button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
             calculate and add divident to pay
           </button>
         </div>
@@ -171,6 +177,14 @@ export const Controller = () => {
         Reset form
       </button>
       <br />
+
+      <div>
+        <p>Total</p>
+        <ul>
+          <li>Dividend incum without tax (PLN)</li>
+          <li>Dividend need to be paid (PLN)</li>
+        </ul>
+      </div>
       <div style={{ border: '1px solid red', padding: 20 }}>
         <div>
           <p>Data</p>
@@ -180,35 +194,41 @@ export const Controller = () => {
             <thead>
               <tr>
                 <th>Company name</th>
-                <th>Divident price in foreign currency</th>
-                <th>Currency</th>
-                <th>Foreign tax</th>
                 <th>Divident date</th>
-                <th>Local currency date</th>
+                <th>Currency</th>
+                <th>Local currency date (PLN)</th>
                 <th>Local currency rate (PLN)</th>
+                <th>Divident price (Foreign currecy)</th>
+                <th>Foreign tax</th>
                 <th>Local tax base (PLN)</th>
+                <th>Local tax (PLN)</th>
+                <th>Local tax Paid (PLN)</th>
+                <th>Local need to pay (PLN)</th>
                 <th>Local tax ammount (Foreign currecy)</th>
                 <th>Foreign tax payed (Foreign currecy)</th>
                 <th>Foreign taxt need to pay (Foreign currecy)</th>
-                <th>Local taxt need to pay (PLN)</th>
               </tr>
             </thead>
             <tbody>
               {dividendsTotal.length > 0
                 ? dividendsTotal.map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id} style={{ backgroundColor: `${item.taxBasePercents ? 'orange' : 'transparent'}` }}>
                       <td>{item.company}</td>
-                      <td>{item.ammount}</td>
-                      <td>{item.currency}</td>
-                      <td>{item.tax}</td>
                       <td>{reformatDate(item.date, API_DATE_FORMAT)}</td>
+                      <td>{item.currency}</td>
                       <td>{item.currencyDate}</td>
                       <td>{item.currencyRate}</td>
-                      <td>{item.taxBaseLocal}</td>
-                      <td>{item.taxAmmountLocal}</td>
-                      <td>{item.taxAmmountForeignPaid}</td>
-                      <td>{item.taxAmmountForeignToPay}</td>
-                      <td>{item.taxNeedToRepayFixed}</td>
+                      <td>{item.ammount}</td>
+                      <td>
+                        {item.tax}% (real taxt percent {item.taxBasePercents ? POLAND_TAX_RATE : '15'}%)
+                      </td>
+                      <td>{item.taxBaseLocal.toFixed(TO_FIXED_VALUE)}</td>
+                      <td>{item.taxLocal.toFixed(TO_FIXED_VALUE)}</td>
+                      <td>{item.taxPaidLocal.toFixed(TO_FIXED_VALUE)}</td>
+                      <td>{item.taxNeedToPayLocal.toFixed(TO_FIXED_VALUE)}</td>
+                      <td>{item.taxAmmountLocal.toFixed(TO_FIXED_VALUE)}</td>
+                      <td>{item.taxAmmountForeignPaid.toFixed(TO_FIXED_VALUE)}</td>
+                      <td>{item.taxAmmountForeignToPay.toFixed(TO_FIXED_VALUE)}</td>
                     </tr>
                   ))
                 : null}
