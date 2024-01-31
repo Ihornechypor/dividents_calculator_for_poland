@@ -14,6 +14,9 @@ export type dividendsReportTypes = {
   totalTax: string;
   totalTaxPaid: string;
   totalNeedToPay: string;
+  totalGetAll: string;
+  totalPaidFakt: string;
+  totalInHands: string;
 };
 
 export type apiTypes = {

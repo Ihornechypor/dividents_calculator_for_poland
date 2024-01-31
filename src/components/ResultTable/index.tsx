@@ -35,7 +35,7 @@ export const ResultTable = ({
               <th>Wartość w (PLN)</th>
               <th>
                 Podatek zaplacony <br />
-                za granicą (PLN)
+                za granicą <br /> faktycznie (PLN)
               </th>
               <th>
                 Zryczałtowany podatek <br />
@@ -43,7 +43,8 @@ export const ResultTable = ({
               </th>
               <th>
                 Podatek zapłacony <br />
-                za granicą kolumna 35
+                za granicą <br />
+                dla kolumny 35
               </th>
               <th>
                 Różnica <br /> kolumna 36(PLN)
