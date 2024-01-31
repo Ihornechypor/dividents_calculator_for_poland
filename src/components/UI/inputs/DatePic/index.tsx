@@ -1,10 +1,11 @@
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { DatePicTypes } from '../../../types';
+import { DatePicTypes } from '../../../../types';
+import * as Styled from '../inputCommonStyles';
 
 export const DatePic = ({ label, selected, onChange, maxDate, disabled }: DatePicTypes) => (
-  <div>
-    <p>{label}</p>
+  <Styled.InputWrapper {...(disabled ? { notActive: disabled } : {})}>
+    <span>{label}</span>
     <DatePicker
       selected={selected}
       onChange={onChange}
@@ -12,5 +13,5 @@ export const DatePic = ({ label, selected, onChange, maxDate, disabled }: DatePi
       disabled={disabled}
       shouldCloseOnSelect={true}
     />
-  </div>
+  </Styled.InputWrapper>
 );

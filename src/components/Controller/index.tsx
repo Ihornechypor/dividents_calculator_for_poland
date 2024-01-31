@@ -76,27 +76,27 @@ export const Controller = () => {
     <Styled.ControllerBox>
       <form onSubmit={handleTaxCalucation}>
         <InputField
-          text="Dividend company"
+          text="Ticker lub nazwa"
           type="text"
-          placeholder="Divident company"
+          placeholder="ticker"
           onChange={handleDividentData}
           value={dividendData.company}
           id="company"
           disabled={dividendCalculated}
         />
         <InputField
-          text="Dividend in foreign currency"
+          text="Wartość dywidendy w walucie obcej"
           type="number"
-          placeholder="Dividend ammount"
+          placeholder="wartość"
           onChange={handleDividentData}
           value={dividendData.ammount}
           id="ammount"
           disabled={dividendCalculated}
         />
         <InputField
-          text="Divident tax in %"
+          text="Procent podatku dywidendy w zagranicznych np (15%)"
           type="number"
-          placeholder="Divident tax in %"
+          placeholder=""
           onChange={handleDividentData}
           value={dividendData.tax}
           id="tax"
@@ -104,7 +104,7 @@ export const Controller = () => {
         />
         <InputSelect
           name="currency"
-          text="Currency"
+          text="Waluta"
           onChange={handleDividentData}
           id="currency"
           disabled={dividendCalculated}
@@ -112,18 +112,20 @@ export const Controller = () => {
         />
         <div>
           <DatePic
-            label="Set divident payment day"
+            label="Data dywidendy (Tu wpisujemy faktyczną datę dywidendy 'Skrypt automatychnie wszytko podliczy')"
             selected={dividendData.date}
             onChange={(date: dateFormatTypes) => handleDividentData(null, date)}
             maxDate={MAX_DIVIDEND_DATE}
             disabled={dividendCalculated}
           />
         </div>
-        <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated} type="primary">
+        <br />
+        <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated} variant="primary">
           Dodaj dywidendę do tablicy
         </Button>
       </form>
-      <Button onClick={handleReset} disabled={!dividendCalculated}>
+      <br />
+      <Button onClick={handleReset} disabled={!dividendCalculated} variant="primary">
         Dodaj nową dividendę
       </Button>
       <ResultTotal dividendsReport={dividendsReport} />
