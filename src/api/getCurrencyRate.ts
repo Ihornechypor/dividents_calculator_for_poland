@@ -8,7 +8,7 @@ export const getCurrecyRate = async (date: string | null, currency: string) => {
       currencyRate: data.rates[0].mid,
     };
   } catch (error) {
-    console.error('Error making API call:', error);
+    alert(error);
     throw error;
   }
 };
