@@ -119,14 +119,12 @@ export const Controller = () => {
             disabled={dividendCalculated}
           />
         </div>
-        <div>
-          <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
-            Dodaj dywidende do tablicy
-          </Button>
-        </div>
+        <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
+          Dodaj dywidendę do tablicy
+        </Button>
       </form>
       <Button onClick={handleReset} disabled={!dividendCalculated}>
-        Dodaj nową dividende
+        Dodaj nową dividendę
       </Button>
       <ResultTotal dividendsReport={dividendsReport} />
       <ResultTable dividendsTotal={dividendsTotal} handleRemove={handleRemove} />

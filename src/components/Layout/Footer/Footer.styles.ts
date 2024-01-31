@@ -16,6 +16,7 @@ const Footer = styled.footer`
     display: block;
     width: 100%;
     padding: ${theme.global.gutter};
+    margin: 0;
   }
 `;
 

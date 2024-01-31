@@ -2,6 +2,7 @@ export const themeColors = {
   black: '#000',
   dark: '#3a393f',
   primary: '#5a23c8',
+  warning: '#ffc107',
   white: '#fff',
   gray: '',
 };
