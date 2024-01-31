@@ -5,3 +5,4 @@ export const CURRENCIES = [
   { value: 'usd', text: 'usd' },
   { value: 'eur', text: 'eur' },
 ];
+export const MAX_DIVIDEND_DATE = new Date();

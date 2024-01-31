@@ -8,15 +8,13 @@ import {
   dividendsReportTypes,
   resultTableTypes,
 } from '../../types';
-import { CURRENCIES } from '../../consts';
+import { CURRENCIES, MAX_DIVIDEND_DATE } from '../../consts';
 import { totalCalculations, isAllDataFilled, fetchData } from '../../helpers';
 import { initialDividendState, dividendsReportState } from '../../initialStates';
 import { ResultTable } from '../ResultTable';
 import { ResultTotal } from '../ResultTotal';
 import { dividendCalulations } from '../../helpers/dividendCalulations';
 import { InputSelect, InputWrapper, Button, DatePic } from '../UI';
-
-const maxDate = new Date();
 
 export const Controller = () => {
   const [dividendData, setDividendData] = useState<dividendDataSateTypes>({
@@ -25,10 +23,13 @@ export const Controller = () => {
   const [dividendCalculated, setDividendCalculated] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [dividendsReport, setDividendsReport] = useState<dividendsReportTypes>({ ...dividendsReportState });
-  const [dividendsTotal, setDividendsTotal] = useState<resultTableTypes[]>([]);
+  const [dividendsTotal, setDividendsTotal] = useState<resultTableTypes[]>(
+    JSON.parse(localStorage.getItem('dividendTotal')!) || [],
+  );
 
   useEffect(() => {
     setDividendsReport({ ...totalCalculations(dividendsTotal) });
+    localStorage.setItem('dividendTotal', JSON.stringify(dividendsTotal));
   }, [dividendsTotal]);
 
   const handleDividentData = (e?: inputTypes, date?: dateFormatTypes) => {
@@ -114,7 +115,7 @@ export const Controller = () => {
             label="Set divident payment day"
             selected={dividendData.date}
             onChange={(date: dateFormatTypes) => handleDividentData(null, date)}
-            maxDate={maxDate}
+            maxDate={MAX_DIVIDEND_DATE}
             disabled={dividendCalculated}
           />
         </div>
