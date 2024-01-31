@@ -1,22 +1,34 @@
 import { dividendsReportTypes } from '../../types';
-
+import * as Styled from './resultTotal.styles';
 export const ResultTotal = ({ dividendsReport }: { dividendsReport: dividendsReportTypes }) => (
-  <section>
-    <h2>Podsumowanie tablicy rozliczenia PIT-38</h2>
+  <Styled.ResultTotalSections>
+    <h2>Podsumowanie dla tablicy rozliczenia PIT-38</h2>
     <ul>
       <li>
-        Zryczałtowany podatek obliczony od przychodów (dochodów), o których mowa w art. 30a ust. 1 pkt 1–5 ustawy,
-        uzyskanych poza granicami Rzeczypospolitej Polskiej (komurka 34 PIT-38) -{' '}
-        <b style={{ fontSize: 20 }}>{dividendsReport.totalTax} zł</b>
+        Zryczałtowany podatek obliczony od przychodów (dochodów), o których mowa w art. 30a ust. 1 pkt 1-5 ustawy,
+        uzyskanych poza granicami Rzeczypospolitej Polskiej (kolumna 34 PIT-38) -{' '}
+        <span>{dividendsReport.totalTax} zł</span>
       </li>
       <li>
-        Podatek zapłacony za granicą, o którym mowa w art. 30a ust. 9 ustawy (przeliczony na złote) (komurka 35 PIT-38){' '}
-        - <b style={{ fontSize: 20 }}>{dividendsReport.totalTaxPaid} zł</b>
+        Podatek zapłacony za granicą, o którym mowa w art. 30a ust. 9 ustawy (przeliczony na złote) (kolumna 35 PIT-38){' '}
+        - <b>{dividendsReport.totalTaxPaid} zł</b>
       </li>
       <li>
         Różnica między zryczałtowanym podatkiem a podatkiem zapłaconym za granicą (po zaokrągleniu do pełnych złotych5))
-        (Line 36 in PIT-38) - <b style={{ fontSize: 20 }}>{dividendsReport.totalNeedToPay} zł</b>
+        (kolumna 36 in PIT-38) - <span>{dividendsReport.totalNeedToPay} zł</span>
       </li>
     </ul>
-  </section>
+    <h2>Podsumowanie ile faktycznie dostalem na rękę</h2>
+    <ul>
+      <li>
+        Ile dostalem bez podatków w (PLN) = <span>{dividendsReport.totalGetAll} zł</span>
+      </li>
+      <li>
+        Ile zaplacilem podatków w (PLN) = <span>{dividendsReport.totalPaidFakt} zł</span>
+      </li>
+      <li>
+        Ile mam na rękę (PLN) = <span>{dividendsReport.totalInHands} zł</span>
+      </li>
+    </ul>
+  </Styled.ResultTotalSections>
 );

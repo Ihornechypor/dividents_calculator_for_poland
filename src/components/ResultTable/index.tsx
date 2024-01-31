@@ -1,7 +1,8 @@
 import { API_DATE_FORMAT, POLAND_TAX_RATE, TO_FIXED_VALUE } from '../../consts';
 import { reformatDate } from '../../helpers';
 import { resultTableTypes } from '../../types';
-
+import { Button } from '../UI';
+import * as Styled from './resultTable.styles';
 export const ResultTable = ({
   dividendsTotal,
   handleRemove,
@@ -10,57 +11,77 @@ export const ResultTable = ({
   handleRemove: (id: string) => void;
 }) => {
   return (
-    <div style={{ border: '1px solid red', padding: 20 }}>
-      <p>Data</p>
-      <table cellPadding={2} border={2}>
-        <thead>
-          <tr>
-            <th>Company name</th>
-            <th>Currency</th>
-            <th>Divident date</th>
-            <th>Local currency date (PLN)</th>
-            <th>Local currency rate (PLN)</th>
-            <th>Divident price (Foreign currecy)</th>
-            <th>Foreign tax</th>
-            <th>Local tax base (PLN)</th>
-            <th>Local tax paid abroad (PLN)</th>
-            <th>Local tax line 34(PLN)</th>
-            <th>Local tax for line 35</th>
-            <th>Local need to pay line 36(PLN)</th>
-            <th>Local tax ammount (Foreign currecy)</th>
-            <th>Foreign tax payed (Foreign currecy)</th>
-            <th colSpan={2}>Foreign taxt need to pay (Foreign currecy)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dividendsTotal.length > 0
-            ? dividendsTotal.map((item) => (
-                <tr key={item.id} style={{ backgroundColor: `${item.taxBasePercents ? 'orange' : 'transparent'}` }}>
-                  <td>{item.company}</td>
-                  <td>{item.currency}</td>
-                  <td>{reformatDate(item.date, API_DATE_FORMAT)}</td>
-                  <td>{item.currencyDate}</td>
-                  <td>{item.currencyRate}</td>
-                  <td>{item.ammount}</td>
-                  <td>
-                    {item.tax}% {item.taxBasePercents && `(real taxt percent ${POLAND_TAX_RATE * 100} %)`}
-                  </td>
-                  <td>{item.taxBaseLocal.toFixed(TO_FIXED_VALUE)}</td>
-                  <td>{item.taxPaidLocal.toFixed(TO_FIXED_VALUE)}</td>
-                  <td>{item.taxLocal.toFixed(TO_FIXED_VALUE)}</td>
-                  <td>{item.taxForReportCell.toFixed(TO_FIXED_VALUE)}</td>
-                  <td>{item.taxNeedToPayLocal.toFixed(TO_FIXED_VALUE)}</td>
-                  <td>{item.taxAmmountLocal.toFixed(TO_FIXED_VALUE)}</td>
-                  <td>{item.taxAmmountForeignPaid.toFixed(TO_FIXED_VALUE)}</td>
-                  <td>{item.taxAmmountForeignToPay.toFixed(TO_FIXED_VALUE)}</td>
-                  <td style={{ textAlign: 'center' }}>
-                    <button onClick={() => handleRemove(item.id)}>X</button>
-                  </td>
-                </tr>
-              ))
-            : null}
-        </tbody>
-      </table>
-    </div>
+    <Styled.ResultTableSection>
+      <h2>Tablica z dywidendami</h2>
+      <Styled.ResultTableInfo type="warning">
+        Kolor ten wskazuje, że wartość płatności dokonanych za granicą jest wyższy niż w Polsce.
+      </Styled.ResultTableInfo>
+      <Styled.ResultTableWrapper>
+        <Styled.ResultTable>
+          <thead>
+            <tr>
+              <th>Nazwa</th>
+              <th>Waluta</th>
+              <th>Data dywidendy</th>
+              <th>Data z api NBP</th>
+              <th>
+                Kurs waluty <br /> z api NBP (PLN)
+              </th>
+              <th>
+                Wartość dywidendy <br />
+                (w walucie)
+              </th>
+              <th>Podatek zagraniczny</th>
+              <th>Wartość w (PLN)</th>
+              <th>
+                Podatek zaplacony <br />
+                za granicą <br /> faktycznie (PLN)
+              </th>
+              <th>
+                Zryczałtowany podatek <br />
+                kolumna 34(PLN)
+              </th>
+              <th>
+                Podatek zapłacony <br />
+                za granicą <br />
+                dla kolumny 35
+              </th>
+              <th>
+                Różnica <br /> kolumna 36(PLN)
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {dividendsTotal.length > 0
+              ? dividendsTotal.map((item) => (
+                  <Styled.ResultTableTr key={item.id} type={item.taxBasePercents ? 'warning' : null}>
+                    <td>{item.company}</td>
+                    <td>{item.currency}</td>
+                    <td>{reformatDate(item.date, API_DATE_FORMAT)}</td>
+                    <td>{item.currencyDate}</td>
+                    <td>{item.currencyRate}</td>
+                    <td>{item.ammount}</td>
+                    <td>
+                      {item.tax}% <br />
+                      {item.taxBasePercents && `(Maksymalny podatek ${POLAND_TAX_RATE * 100} %)`}
+                    </td>
+                    <td>{item.taxBaseLocal.toFixed(TO_FIXED_VALUE)}</td>
+                    <td>{item.taxPaidLocal.toFixed(TO_FIXED_VALUE)}</td>
+                    <td>{item.taxLocal.toFixed(TO_FIXED_VALUE)}</td>
+                    <td>{item.taxForReportCell.toFixed(TO_FIXED_VALUE)}</td>
+                    <td>{item.taxNeedToPayLocal.toFixed(TO_FIXED_VALUE)}</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <Button onClick={() => handleRemove(item.id)} variant="danger">
+                        X
+                      </Button>
+                    </td>
+                  </Styled.ResultTableTr>
+                ))
+              : null}
+          </tbody>
+        </Styled.ResultTable>
+      </Styled.ResultTableWrapper>
+    </Styled.ResultTableSection>
   );
 };

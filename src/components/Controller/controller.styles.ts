@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-const ControllerBox = styled.section`
-  padding: 20px;
-
+const ControllerBox = styled.div`
   form > div {
     margin-top: 10px;
   }

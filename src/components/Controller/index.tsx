@@ -14,7 +14,7 @@ import { initialDividendState, dividendsReportState } from '../../initialStates'
 import { ResultTable } from '../ResultTable';
 import { ResultTotal } from '../ResultTotal';
 import { dividendCalulations } from '../../helpers/dividendCalulations';
-import { InputSelect, InputWrapper, Button, DatePic } from '../UI';
+import { InputSelect, InputField, Button, DatePic } from '../UI';
 
 export const Controller = () => {
   const [dividendData, setDividendData] = useState<dividendDataSateTypes>({
@@ -75,28 +75,28 @@ export const Controller = () => {
   return (
     <Styled.ControllerBox>
       <form onSubmit={handleTaxCalucation}>
-        <InputWrapper
-          text="Dividend company"
+        <InputField
+          text="Ticker lub nazwa"
           type="text"
-          placeholder="Divident company"
+          placeholder="ticker"
           onChange={handleDividentData}
           value={dividendData.company}
           id="company"
           disabled={dividendCalculated}
         />
-        <InputWrapper
-          text="Dividend ammount"
+        <InputField
+          text="Wartość dywidendy w walucie obcej"
           type="number"
-          placeholder="Dividend ammount"
+          placeholder="wartość"
           onChange={handleDividentData}
           value={dividendData.ammount}
           id="ammount"
           disabled={dividendCalculated}
         />
-        <InputWrapper
-          text="Divident tax in %"
+        <InputField
+          text="Procent podatku dywidendy w zagranicznych np (15%)"
           type="number"
-          placeholder="Divident tax in %"
+          placeholder=""
           onChange={handleDividentData}
           value={dividendData.tax}
           id="tax"
@@ -104,7 +104,7 @@ export const Controller = () => {
         />
         <InputSelect
           name="currency"
-          text="Currency"
+          text="Waluta"
           onChange={handleDividentData}
           id="currency"
           disabled={dividendCalculated}
@@ -112,21 +112,21 @@ export const Controller = () => {
         />
         <div>
           <DatePic
-            label="Set divident payment day"
+            label="Data dywidendy (Tu wpisujemy faktyczną datę dywidendy 'Skrypt automatychnie wszytko podliczy')"
             selected={dividendData.date}
             onChange={(date: dateFormatTypes) => handleDividentData(null, date)}
             maxDate={MAX_DIVIDEND_DATE}
             disabled={dividendCalculated}
           />
         </div>
-        <div>
-          <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
-            Calculate dividend
-          </Button>
-        </div>
+        <br />
+        <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated} variant="primary">
+          Dodaj dywidendę do tablicy
+        </Button>
       </form>
-      <Button onClick={handleReset} disabled={!dividendCalculated}>
-        Add new dividend
+      <br />
+      <Button onClick={handleReset} disabled={!dividendCalculated} variant="primary">
+        Dodaj nową dividendę
       </Button>
       <ResultTotal dividendsReport={dividendsReport} />
       <ResultTable dividendsTotal={dividendsTotal} handleRemove={handleRemove} />

@@ -22,7 +22,8 @@ export type inputSectionTypes = {
 
 export type ButtonTypes = {
   children: ReactNode;
-  disabled: boolean;
+  variant?: 'primary' | 'danger' | null;
+  disabled?: boolean;
   onClick?: () => void;
 };
 
