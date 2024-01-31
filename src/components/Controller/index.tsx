@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import * as Styled from './controller.styles';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import {
   dividendDataSateTypes,
   inputTypes,
@@ -35,15 +33,12 @@ export const Controller = () => {
   }, [dividendsTotal]);
 
   const handleDividentData = (e?: inputTypes, date?: dateFormatTypes) => {
-    console.log(e);
     e &&
       setDividendData((prev) => ({
         ...prev,
         [e.target.id]: e.target.value,
       }));
-    if (date) {
-      date && setDividendData((prev) => ({ ...prev, date }));
-    }
+    date && setDividendData((prev) => ({ ...prev, date }));
   };
 
   const handleDividendCalculations = (data: apiDataTypes) =>
@@ -124,7 +119,7 @@ export const Controller = () => {
           name="currency"
           text="Currency"
           onChange={handleDividentData}
-          id="date"
+          id="currency"
           disabled={dividendCalculated}
           options={[
             { value: 'usd', text: 'usd' },
@@ -142,7 +137,7 @@ export const Controller = () => {
         </div>
         <div>
           <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
-            Calculate divident
+            Calculate dividend
           </Button>
         </div>
       </form>

@@ -2,13 +2,7 @@ import { API_DATE_FORMAT, POLAND_TAX_RATE, TO_FIXED_VALUE } from '../../consts';
 import { reformatDate } from '../../helpers';
 import { resultTableTypes } from '../../types';
 
-export const ResultTable = ({
-  dividendsTotal,
-  handleRemove,
-}: {
-  dividendsTotal: resultTableTypes;
-  handleRemove: (id: string) => void;
-}) => {
+export const ResultTable = (dividendsTotal: resultTableTypes, handleRemove: (id: string) => void) => {
   return (
     <div style={{ border: '1px solid red', padding: 20 }}>
       <p>Data</p>
@@ -16,8 +10,8 @@ export const ResultTable = ({
         <thead>
           <tr>
             <th>Company name</th>
-            <th>Divident date</th>
             <th>Currency</th>
+            <th>Divident date</th>
             <th>Local currency date (PLN)</th>
             <th>Local currency rate (PLN)</th>
             <th>Divident price (Foreign currecy)</th>
@@ -36,8 +30,8 @@ export const ResultTable = ({
             ? dividendsTotal.map((item) => (
                 <tr key={item.id} style={{ backgroundColor: `${item.taxBasePercents ? 'orange' : 'transparent'}` }}>
                   <td>{item.company}</td>
-                  <td>{reformatDate(item.date, API_DATE_FORMAT)}</td>
                   <td>{item.currency}</td>
+                  <td>{reformatDate(item.date, API_DATE_FORMAT)}</td>
                   <td>{item.currencyDate}</td>
                   <td>{item.currencyRate}</td>
                   <td>{item.ammount}</td>
