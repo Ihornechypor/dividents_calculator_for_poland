@@ -8,9 +8,8 @@ import {
   dividendsReportTypes,
   resultTableTypes,
 } from '../../types';
-import { API_DATE_FORMAT, CURRENCIES } from '../../consts';
-import { getCurrecyRate } from '../../api/getCurrencyRate';
-import { reformatDate, updateSubDays, totalCalculations, minusDay, isAllDataFilled } from '../../helpers';
+import { CURRENCIES } from '../../consts';
+import { totalCalculations, isAllDataFilled, fetchData } from '../../helpers';
 import { initialDividendState, dividendsReportState } from '../../initialStates';
 import { ResultTable } from '../ResultTable';
 import { ResultTotal } from '../ResultTotal';
@@ -44,34 +43,20 @@ export const Controller = () => {
   const handleDividendCalculations = (data: apiDataTypes) =>
     setDividendsTotal((prev) => [...prev, { ...dividendCalulations(data, dividendData) }]);
 
-  const fetchData = async (): Promise<void> => {
-    let currentDate = minusDay(dividendData.date, 1);
-    let retryCount = 0;
-    while (retryCount < 10) {
-      try {
-        const data = await getCurrecyRate(currentDate, dividendData.currency);
-
-        if (data.currencyDate) {
-          setDividendCalculated(true);
-          handleDividendCalculations(data);
-          setIsFetching(false);
-          break;
-        } else {
-          console.error('Empty or invalid API response');
-        }
-      } catch (error) {
-        const subDay = updateSubDays(currentDate, API_DATE_FORMAT, 1);
-        currentDate = subDay && reformatDate(subDay, API_DATE_FORMAT);
-
-        retryCount += 1;
-      }
-    }
-  };
-
-  const handleTaxCalucation = (e: React.FormEvent) => {
+  const handleTaxCalucation = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFetching(true);
-    fetchData();
+
+    const data = await fetchData(dividendData);
+
+    if (data) {
+      setDividendCalculated(true);
+      handleDividendCalculations(data);
+      setIsFetching(false);
+    } else {
+      setIsFetching(false);
+      console.error('Failed to fetch data from API');
+    }
   };
 
   const handleReset = () => {

@@ -42,7 +42,7 @@ export const ResultTable = ({
                   <td>{item.currencyRate}</td>
                   <td>{item.ammount}</td>
                   <td>
-                    {item.tax}% (real taxt percent {item.taxBasePercents ? POLAND_TAX_RATE : '15'}%)
+                    {item.tax}% {item.taxBasePercents && `(real taxt percent ${POLAND_TAX_RATE})`}
                   </td>
                   <td>{item.taxBaseLocal.toFixed(TO_FIXED_VALUE)}</td>
                   <td>{item.taxLocal.toFixed(TO_FIXED_VALUE)}</td>

@@ -1,7 +1,7 @@
 import { getCurrecyRate } from '../api/getCurrencyRate';
 import { API_DATE_FORMAT } from '../consts';
 import { reformatDate, updateSubDays, minusDay } from '../helpers';
-import { apiDataTypes, dividendDataSateTypes } from '../types';
+import { dividendDataSateTypes } from '../types';
 
 export const fetchData = async (dividendData: dividendDataSateTypes) => {
   let currentDate = minusDay(dividendData.date, 1);
