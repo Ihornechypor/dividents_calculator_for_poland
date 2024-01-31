@@ -1,13 +1,13 @@
 export type inputTypes = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | null;
 
-export type dateFormat = Date | null;
+export type dateFormatTypes = Date | null;
 
 export type dividendDataSateTypes = {
   company: string;
   ammount: number;
   tax: number;
   currency: string;
-  date: dateFormat;
+  date: dateFormatTypes;
 };
 
 export type dividendsReportTypes = {
@@ -40,3 +40,22 @@ export type resultTableComputedTypes = {
 };
 
 export type resultTableTypes = dividendDataSateTypes & apiDataTypes & resultTableComputedTypes;
+
+export type inputWrapperTypes = {
+  text: string;
+  type: string;
+  placeholder: string;
+  value: any;
+  id: string;
+  disabled: boolean;
+  onChange: (e: inputTypes) => void;
+};
+
+export type inputSectionTypes = {
+  text: string;
+  name: string;
+  id: string;
+  disabled: boolean;
+  options: { value: string; text: string }[];
+  onChange: (e?: inputTypes) => void;
+};

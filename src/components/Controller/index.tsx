@@ -20,6 +20,7 @@ import { minusDay } from '../../helpers/minusDay';
 import { ResultTable } from '../ResultTable';
 import { ResultTotal } from '../ResultTotal';
 import { dividendCalulations } from '../../helpers/dividendCalulations';
+import { InputSelect, InputWrapper } from '../UI';
 
 const maxDate = new Date();
 
@@ -31,20 +32,6 @@ export const Controller = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [dividendsReport, setDividendsReport] = useState<dividendsReportTypes>({ ...dividendsReportState });
   const [dividendsTotal, setDividendsTotal] = useState<resultTableTypes[]>([]);
-
-  const handleDividentData = (e?: inputTypes, date?: dateFormatTypes) => {
-    console.log(date);
-    e &&
-      setDividendData((prev) => ({
-        ...prev,
-        [e.target.id]: e.target.value,
-      }));
-    date && setDividendData((prev) => ({ ...prev, date }));
-  };
-
-  const handleDividendCalculations = (data: apiDataTypes) =>
-    setDividendsTotal((prev) => [...prev, { ...dividendCalulations(data, dividendData) }]);
-
   useEffect(() => {
     const totalTax = dividendsTotal.reduce((sum, item) => sum + item.taxLocal, 0).toFixed(TO_FIXED_VALUE);
     const totalTaxPaid = dividendsTotal.reduce((sum, item) => sum + item.taxPaidLocal, 0).toFixed(TO_FIXED_VALUE);
@@ -53,6 +40,22 @@ export const Controller = () => {
       .toFixed(TO_FIXED_VALUE);
     setDividendsReport({ totalTax, totalTaxPaid, totalNeedToPay });
   }, [dividendsTotal]);
+
+  const handleDividentData = (e?: inputTypes, date?: dateFormatTypes) => {
+    e &&
+      setDividendData((prev) => ({
+        ...prev,
+        [e.target.id]: e.target.value,
+      }));
+    if (date) {
+      console.log(e);
+
+      date && setDividendData((prev) => ({ ...prev, date }));
+    }
+  };
+
+  const handleDividendCalculations = (data: apiDataTypes) =>
+    setDividendsTotal((prev) => [...prev, { ...dividendCalulations(data, dividendData) }]);
 
   const fetchData = async (): Promise<void> => {
     let currentDate = minusDay(dividendData.date, 1);
@@ -98,52 +101,44 @@ export const Controller = () => {
   return (
     <Styled.ControllerBox>
       <form onSubmit={handleTaxCalucation}>
-        <div>
-          <label>
-            Divident company <br />
-            <input
-              type="text"
-              placeholder="Divident company"
-              onChange={handleDividentData}
-              value={dividendData.company}
-              id="company"
-              disabled={dividendCalculated}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Divident ammount <br />
-            <input
-              type="number"
-              placeholder="ammount"
-              onChange={handleDividentData}
-              value={dividendData.ammount}
-              id="ammount"
-              disabled={dividendCalculated}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Divident tax in %<br />
-            <input
-              type="number"
-              placeholder="ammount"
-              onChange={handleDividentData}
-              value={dividendData.tax}
-              id="tax"
-              disabled={dividendCalculated}
-            />
-          </label>
-        </div>
-        <div>
-          <p>Currency</p>
-          <select name="currency" onChange={handleDividentData} id="date" disabled={dividendCalculated}>
-            <option value="usd">usd</option>
-            <option value="eur">eur</option>
-          </select>
-        </div>
+        <InputWrapper
+          text="Dividend company"
+          type="text"
+          placeholder="Divident company"
+          onChange={handleDividentData}
+          value={dividendData.company}
+          id="company"
+          disabled={dividendCalculated}
+        />
+        <InputWrapper
+          text="Dividend ammount"
+          type="number"
+          placeholder="Dividend ammount"
+          onChange={handleDividentData}
+          value={dividendData.company}
+          id="ammount"
+          disabled={dividendCalculated}
+        />
+        <InputWrapper
+          text="Divident tax in %"
+          type="number"
+          placeholder="Divident tax in %"
+          onChange={handleDividentData}
+          value={dividendData.tax}
+          id="tax"
+          disabled={dividendCalculated}
+        />
+        <InputSelect
+          name="currency"
+          text="Currency"
+          onChange={handleDividentData}
+          id="date"
+          disabled={dividendCalculated}
+          options={[
+            { value: 'usd', text: 'usd' },
+            { value: 'eur', text: 'eur' },
+          ]}
+        />
         <div>
           <p>Set divident payment day</p>
           <DatePicker
