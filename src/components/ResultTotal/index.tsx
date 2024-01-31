@@ -27,7 +27,7 @@ export const ResultTotal = ({ dividendsReport }: { dividendsReport: dividendsRep
         Zaplacone podatki w (PLN) = <span>{dividendsReport.totalPaidFakt} zł</span>
       </li>
       <li>
-        Na rękę (PLN) = <span>{dividendsReport.totalInHands} zł</span>
+        Kwota rękę (PLN) = <span>{dividendsReport.totalInHands} zł</span>
       </li>
     </ul>
   </Styled.ResultTotalSections>
