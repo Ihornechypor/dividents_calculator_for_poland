@@ -8,7 +8,7 @@ import {
   dividendsReportTypes,
   resultTableTypes,
 } from '../../types';
-import { API_DATE_FORMAT } from '../../consts';
+import { API_DATE_FORMAT, CURRENCIES } from '../../consts';
 import { getCurrecyRate } from '../../api/getCurrencyRate';
 import { reformatDate, updateSubDays, totalCalculations, minusDay, isAllDataFilled } from '../../helpers';
 import { initialDividendState, dividendsReportState } from '../../initialStates';
@@ -121,10 +121,7 @@ export const Controller = () => {
           onChange={handleDividentData}
           id="currency"
           disabled={dividendCalculated}
-          options={[
-            { value: 'usd', text: 'usd' },
-            { value: 'eur', text: 'eur' },
-          ]}
+          options={CURRENCIES}
         />
         <div>
           <DatePic
