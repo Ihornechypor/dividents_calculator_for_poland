@@ -20,7 +20,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: ${theme.global.font};
-    color: ${theme.global.textColor};
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
@@ -28,10 +27,6 @@ const GlobalStyle = createGlobalStyle`
   #root {
     display: flex;
     flex-direction: column;
-  }
-
-  a {
-    color: ${theme.global.textColor};
   }
 
   a, button {

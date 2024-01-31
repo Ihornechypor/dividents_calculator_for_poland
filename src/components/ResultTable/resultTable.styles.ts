@@ -24,15 +24,20 @@ const ResultTableInfo = styled.p<ResultTableInfoProps>`
   }
 `;
 
+const ResultTableWrapper = styled.div`
+  overflow-x: auto;
+`;
+
 const ResultTable = styled.table`
   width: 100%;
   max-width: 100%;
   margin-bottom: 1rem;
   border-collapse: collapse;
+
   th,
   td {
     text-align: center;
-    padding: 0.75rem;
+    padding: 5px;
     vertical-align: middle;
     border: 1px solid ${themeColors.primary};
     font-size: 12px;
@@ -42,4 +47,4 @@ const ResultTableTr = styled.tr<ResultTableTrProps>`
   ${(props) => props.type === 'warning' && `background-color: ${themeColors.warning}`}
 `;
 
-export { ResultTableSection, ResultTableInfo, ResultTable, ResultTableTr };
+export { ResultTableSection, ResultTableInfo, ResultTableWrapper, ResultTable, ResultTableTr };

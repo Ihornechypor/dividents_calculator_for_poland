@@ -21,6 +21,7 @@ const theme = {
     lineHeight: 1.4,
     gutter: '24px',
     maxSectionWidth: '920px',
+    breakpoint: '991px',
     borderRadius: '4px',
   },
 };
