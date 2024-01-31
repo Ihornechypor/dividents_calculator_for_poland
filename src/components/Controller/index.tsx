@@ -57,6 +57,7 @@ export const Controller = () => {
       setIsFetching(false);
     } else {
       setIsFetching(false);
+      alert('Failed to fetch data from API');
       console.error('Failed to fetch data from API');
     }
   };
@@ -120,9 +121,6 @@ export const Controller = () => {
           />
         </div>
         <div style={{ textAlign: 'right' }}>
-          <button type="submit" disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
-            Dodaj dywidendę do tablicy
-          </button>
           <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated} variant="primary">
             Dodaj dywidendę do tablicy
           </Button>
@@ -134,7 +132,7 @@ export const Controller = () => {
         </Button>
       </div>
       <div style={{ textAlign: 'right', marginTop: 10 }}>
-        <Button variant="primary" onClick={() => alert(JSON.stringify(dividendsTotal))}>
+        <Button variant="primary" onClick={() => alert(JSON.stringify(dividendData))}>
           Dodaj nową dividendę
         </Button>
       </div>
