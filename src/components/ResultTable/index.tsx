@@ -14,7 +14,7 @@ export const ResultTable = ({
     <Styled.ResultTableSection>
       <h2>Tablica z dywidendami</h2>
       <Styled.ResultTableInfo type="warning">
-        Kolor ten wskazuje, że wartość płatności dokonanych za granicą jest wyższy niż w Polsce.
+        Kolor ten wskazuje, że wartość płatności za granicą jest wyższa niż w Polsce.
       </Styled.ResultTableInfo>
       <Styled.ResultTableWrapper>
         <Styled.ResultTable>

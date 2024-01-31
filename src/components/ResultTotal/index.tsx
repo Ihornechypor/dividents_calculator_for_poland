@@ -18,16 +18,16 @@ export const ResultTotal = ({ dividendsReport }: { dividendsReport: dividendsRep
         (kolumna 36 in PIT-38) - <span>{dividendsReport.totalNeedToPay} zł</span>
       </li>
     </ul>
-    <h2>Podsumowanie, ile faktycznie dostałem na rękę</h2>
+    <h2>Podsumowanie, ile faktycznie dostanę na rękę</h2>
     <ul>
       <li>
-        Ile dostałem bez podatków w (PLN) = <span>{dividendsReport.totalGetAll} zł</span>
+        Kwota uzyskana bez podatków w (PLN) = <span>{dividendsReport.totalGetAll} zł</span>
       </li>
       <li>
-        Ile zapłaciłem podatków w (PLN) = <span>{dividendsReport.totalPaidFakt} zł</span>
+        Zaplacone podatki w (PLN) = <span>{dividendsReport.totalPaidFakt} zł</span>
       </li>
       <li>
-        Ile mam na rękę (PLN) = <span>{dividendsReport.totalInHands} zł</span>
+        Na rękę (PLN) = <span>{dividendsReport.totalInHands} zł</span>
       </li>
     </ul>
   </Styled.ResultTotalSections>
