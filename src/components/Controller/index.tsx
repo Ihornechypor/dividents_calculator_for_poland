@@ -119,15 +119,18 @@ export const Controller = () => {
             disabled={dividendCalculated}
           />
         </div>
-        <br />
-        <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated} variant="primary">
-          Dodaj dywidendę do tablicy
-        </Button>
+        <div style={{ textAlign: 'right' }}>
+          <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated} variant="primary">
+            Dodaj dywidendę do tablicy
+          </Button>
+        </div>
       </form>
-      <br />
-      <Button onClick={handleReset} disabled={!dividendCalculated} variant="primary">
-        Dodaj nową dividendę
-      </Button>
+      <div style={{ textAlign: 'right', marginTop: 10 }}>
+        <Button onClick={handleReset} disabled={!dividendCalculated} variant="primary">
+          Dodaj nową dividendę
+        </Button>
+      </div>
+
       <ResultTotal dividendsReport={dividendsReport} />
       <ResultTable dividendsTotal={dividendsTotal} handleRemove={handleRemove} />
     </Styled.ControllerBox>

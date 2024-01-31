@@ -4,8 +4,8 @@ export type dateFormatTypes = Date | null;
 
 export type dividendDataSateTypes = {
   company: string;
-  ammount: number;
-  tax: number;
+  ammount: number | null;
+  tax: number | null;
   currency: string;
   date: dateFormatTypes;
 };
