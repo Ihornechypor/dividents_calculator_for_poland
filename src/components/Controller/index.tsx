@@ -52,6 +52,7 @@ export const Controller = () => {
     if (data) {
       setDividendCalculated(true);
       handleDividendCalculations(data);
+      setDividendData({ ...initialDividendState });
       setIsFetching(false);
     } else {
       setIsFetching(false);

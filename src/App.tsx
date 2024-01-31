@@ -7,7 +7,8 @@ function App() {
     <>
       <GlobalStyle />
       <Main>
-        <h1>Kalkulator dywidend otrzymanych za granicą</h1>
+        <h1>Kalkulator dywidend otrzymanych za granicą dla rozliczenia PIT-38</h1>
+        <p>Kalkulator obliczy</p>
         <Controller />
       </Main>
     </>
