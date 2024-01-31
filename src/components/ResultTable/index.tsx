@@ -12,8 +12,10 @@ export const ResultTable = ({
   return (
     <Styled.ResultTableSection>
       <h2>Tablica z dywidendami</h2>
-      <div></div>
-      <table cellPadding={2} border={2}>
+      <Styled.ResultTableInfo type="warning">
+        Kolor ten wskazuje, że odsetek płatności dokonanych za granicą jest wyższy niż w przypadku transakcji krajowych.
+      </Styled.ResultTableInfo>
+      <Styled.ResultTable>
         <thead>
           <tr>
             <th>Company name</th>
@@ -36,7 +38,7 @@ export const ResultTable = ({
         <tbody>
           {dividendsTotal.length > 0
             ? dividendsTotal.map((item) => (
-                <tr key={item.id} style={{ backgroundColor: `${item.taxBasePercents ? 'orange' : 'transparent'}` }}>
+                <Styled.ResultTableTr key={item.id} type={item.taxBasePercents ? 'warning' : null}>
                   <td>{item.company}</td>
                   <td>{item.currency}</td>
                   <td>{reformatDate(item.date, API_DATE_FORMAT)}</td>
@@ -57,11 +59,11 @@ export const ResultTable = ({
                   <td style={{ textAlign: 'center' }}>
                     <button onClick={() => handleRemove(item.id)}>X</button>
                   </td>
-                </tr>
+                </Styled.ResultTableTr>
               ))
             : null}
         </tbody>
-      </table>
+      </Styled.ResultTable>
     </Styled.ResultTableSection>
   );
 };
