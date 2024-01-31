@@ -120,6 +120,9 @@ export const Controller = () => {
           />
         </div>
         <div style={{ textAlign: 'right' }}>
+          <button type="submit" disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
+            Dodaj dywidendę do tablicy
+          </button>
           <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated} variant="primary">
             Dodaj dywidendę do tablicy
           </Button>
