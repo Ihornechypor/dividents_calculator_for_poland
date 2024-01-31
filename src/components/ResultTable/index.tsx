@@ -1,11 +1,12 @@
 import { API_DATE_FORMAT, POLAND_TAX_RATE, TO_FIXED_VALUE } from '../../consts';
 import { reformatDate } from '../../helpers/reformatDate';
+import { resultTableTypes } from '../../types';
 
 export const ResultTable = ({
   dividendsTotal,
   handleRemove,
 }: {
-  dividendsTotal: any[];
+  dividendsTotal: resultTableTypes;
   handleRemove: (id: string) => void;
 }) => {
   return (

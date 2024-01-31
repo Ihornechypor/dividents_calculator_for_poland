@@ -3,24 +3,24 @@ import * as Styled from './controller.styles';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { percentToDecimal } from '../../helpers/percentToDecimal';
-import { dividendDataSateTypes, inputTypes, dateFormat, apiData, dividendsReportTypes } from '../../types';
+import {
+  dividendDataSateTypes,
+  inputTypes,
+  dateFormatTypes,
+  apiDataTypes,
+  dividendsReportTypes,
+  resultTableTypes,
+} from '../../types';
 import { isAllDataFilled } from '../../helpers/isAllDataFilled';
 import { POLAND_TAX_RATE, API_DATE_FORMAT, TO_FIXED_VALUE } from '../../consts';
 import { getCurrecyRate } from '../../api/getCurrencyRate';
 import { reformatDate } from '../../helpers/reformatDate';
 import { updateSubDays } from '../../helpers/updateSubDays';
+import { initialDividendState, dividendsReportState } from '../../initialStates';
 import { minusDay } from '../../helpers/minusDay';
 import { nanoid } from 'nanoid';
 import { ResultTable } from '../ResultTable';
 import { ResultTotal } from '../ResultTotal';
-
-const initialDividendState = {
-  company: '',
-  ammount: 0,
-  tax: 0,
-  date: null,
-  currency: 'usd',
-};
 
 export const Controller = () => {
   const [dividendData, setDividendData] = useState<dividendDataSateTypes>({
@@ -28,14 +28,10 @@ export const Controller = () => {
   });
   const [dividendCalculated, setDividendCalculated] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [dividendsTotal, setDividendsTotal] = useState<any[]>([]);
-  const [dividendsReport, setDividendsReport] = useState<dividendsReportTypes>({
-    totalTax: 0,
-    totalTaxPaid: 0,
-    totalNeedToPay: 0,
-  });
+  const [dividendsReport, setDividendsReport] = useState<dividendsReportTypes>({ ...dividendsReportState });
+  const [dividendsTotal, setDividendsTotal] = useState<resultTableTypes[]>([]);
 
-  const handleDividentData = (e?: inputTypes, date?: dateFormat) => {
+  const handleDividentData = (e?: inputTypes, date?: dateFormatTypes) => {
     e &&
       setDividendData((prev) => ({
         ...prev,
@@ -44,7 +40,7 @@ export const Controller = () => {
     date && setDividendData((prev) => ({ ...prev, date }));
   };
 
-  const handleDividendCalculations = (data: apiData) => {
+  const handleDividendCalculations = (data: apiDataTypes) => {
     const taxNumToPercent = percentToDecimal(dividendData.tax);
     const taxBasePercents = taxNumToPercent >= POLAND_TAX_RATE;
 
@@ -57,7 +53,7 @@ export const Controller = () => {
     const taxAmmountForeignPaid = dividendData.ammount * taxNumToPercent;
     const taxAmmountForeignToPay = taxNumToPercent >= POLAND_TAX_RATE ? 0 : taxAmmountLocal - taxAmmountForeignPaid;
 
-    const taxTotal = {
+    const taxTotal: resultTableTypes = {
       id: nanoid(),
       ...dividendData,
       ...data,
@@ -77,12 +73,12 @@ export const Controller = () => {
   };
 
   useEffect(() => {
-    console.log(dividendsTotal);
     const totalTax = dividendsTotal.reduce((sum, item) => sum + item.taxLocal, 0).toFixed(TO_FIXED_VALUE);
     const totalTaxPaid = dividendsTotal.reduce((sum, item) => sum + item.taxPaidLocal, 0).toFixed(TO_FIXED_VALUE);
     const totalNeedToPay = dividendsTotal
       .reduce((sum, item) => sum + item.taxNeedToPayLocal, 0)
       .toFixed(TO_FIXED_VALUE);
+    console.log(totalTax);
     setDividendsReport({ totalTax, totalTaxPaid, totalNeedToPay });
   }, [dividendsTotal]);
 

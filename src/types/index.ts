@@ -11,9 +11,9 @@ export type dividendDataSateTypes = {
 };
 
 export type dividendsReportTypes = {
-  totalTax: number;
-  totalTaxPaid: number;
-  totalNeedToPay: number;
+  totalTax: string;
+  totalTaxPaid: string;
+  totalNeedToPay: string;
 };
 
 export type apiTypes = {
@@ -22,7 +22,21 @@ export type apiTypes = {
   currency: string;
 };
 
-export type apiData = {
+export type apiDataTypes = {
   currencyRate: number | 0;
   currencyDate: string | null;
 };
+
+export type resultTableComputedTypes = {
+  id: string;
+  taxBasePercents: boolean;
+  taxBaseLocal: number;
+  taxLocal: number;
+  taxPaidLocal: number;
+  taxNeedToPayLocal: number;
+  taxAmmountLocal: number;
+  taxAmmountForeignPaid: number;
+  taxAmmountForeignToPay: number;
+};
+
+export type resultTableTypes = dividendDataSateTypes & apiDataTypes & resultTableComputedTypes;
