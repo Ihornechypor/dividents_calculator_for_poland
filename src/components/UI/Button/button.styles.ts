@@ -8,6 +8,8 @@ type ButtonProps = {
 };
 
 const Button = styled.button<ButtonProps>`
+  position: relative;
+  z-index: 3;
   font-size: 14px;
   font-weight: bold;
   color: ${themeColors.white};

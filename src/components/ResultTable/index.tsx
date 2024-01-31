@@ -20,6 +20,7 @@ export const ResultTable = ({
         <Styled.ResultTable>
           <thead>
             <tr>
+              <th></th>
               <th>Nazwa</th>
               <th>Waluta</th>
               <th>Data dywidendy</th>
@@ -49,13 +50,17 @@ export const ResultTable = ({
               <th>
                 Różnica <br /> kolumna 36(PLN)
               </th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
             {dividendsTotal.length > 0
               ? dividendsTotal.map((item) => (
                   <Styled.ResultTableTr key={item.id} type={item.taxBasePercents ? 'warning' : null}>
+                    <td>
+                      <Button onClick={() => handleRemove(item.id)} variant="danger">
+                        X
+                      </Button>
+                    </td>
                     <td>{item.company}</td>
                     <td>{item.currency}</td>
                     <td>{reformatDate(item.date, API_DATE_FORMAT)}</td>
@@ -71,11 +76,6 @@ export const ResultTable = ({
                     <td>{item.taxLocal.toFixed(TO_FIXED_VALUE)}</td>
                     <td>{item.taxForReportCell.toFixed(TO_FIXED_VALUE)}</td>
                     <td>{item.taxNeedToPayLocal.toFixed(TO_FIXED_VALUE)}</td>
-                    <td style={{ textAlign: 'center' }}>
-                      <Button onClick={() => handleRemove(item.id)} variant="danger">
-                        X
-                      </Button>
-                    </td>
                   </Styled.ResultTableTr>
                 ))
               : null}
