@@ -34,7 +34,7 @@ export const ResultTable = ({
               <th>Podatek zagraniczny</th>
               <th>Wartość w (PLN)</th>
               <th>
-                Podatek zaplacony <br />
+                Podatek zapłacony <br />
                 za granicą <br /> faktycznie (PLN)
               </th>
               <th>

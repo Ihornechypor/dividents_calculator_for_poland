@@ -10,9 +10,10 @@ function App() {
       <Main>
         <h1>Kalkulator dywidend otrzymanych za granicą dla rozliczenia PIT-38</h1>
         <p>
-          Ten kalkulator rozliczy podatek, jaki musisz zapłacić od dywidend otrzymanych za granicą. Jest on podłączony
+          Ten kalkulator rozliczy podatek, który musisz zapłacić od dywidend otrzymanych za granicą. Jest on podłączony
           do API NBP, które pobiera informacje o kursie walut aktualnym w czasie otrzymania dywidendy.
         </p>
+        <br />
         <Controller />
       </Main>
       <Footer />

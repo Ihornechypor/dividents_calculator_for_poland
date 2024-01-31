@@ -2,7 +2,7 @@ import { dividendsReportTypes } from '../../types';
 import * as Styled from './resultTotal.styles';
 export const ResultTotal = ({ dividendsReport }: { dividendsReport: dividendsReportTypes }) => (
   <Styled.ResultTotalSections>
-    <h2>Podsumowanie dla tablicy rozliczenia PIT-38</h2>
+    <h2>Podsumowanie do tablicy rozliczenia PIT-38</h2>
     <ul>
       <li>
         Zryczałtowany podatek obliczony od przychodów (dochodów), o których mowa w art. 30a ust. 1 pkt 1-5 ustawy,
@@ -18,13 +18,13 @@ export const ResultTotal = ({ dividendsReport }: { dividendsReport: dividendsRep
         (kolumna 36 in PIT-38) - <span>{dividendsReport.totalNeedToPay} zł</span>
       </li>
     </ul>
-    <h2>Podsumowanie ile faktycznie dostalem na rękę</h2>
+    <h2>Podsumowanie, ile faktycznie dostałem na rękę</h2>
     <ul>
       <li>
-        Ile dostalem bez podatków w (PLN) = <span>{dividendsReport.totalGetAll} zł</span>
+        Ile dostałem bez podatków w (PLN) = <span>{dividendsReport.totalGetAll} zł</span>
       </li>
       <li>
-        Ile zaplacilem podatków w (PLN) = <span>{dividendsReport.totalPaidFakt} zł</span>
+        Ile zapłaciłem podatków w (PLN) = <span>{dividendsReport.totalPaidFakt} zł</span>
       </li>
       <li>
         Ile mam na rękę (PLN) = <span>{dividendsReport.totalInHands} zł</span>
