@@ -1,7 +1,8 @@
 import { ButtonTypes } from '../../../types';
+import * as Styled from './button.styles';
 
 export const Button = ({ children, disabled, onClick }: ButtonTypes) => (
-  <button
+  <Styled.Button
     disabled={disabled}
     {...(onClick
       ? {
@@ -12,5 +13,5 @@ export const Button = ({ children, disabled, onClick }: ButtonTypes) => (
       : {})}
   >
     {children}
-  </button>
+  </Styled.Button>
 );

@@ -3,6 +3,7 @@ export const themeColors = {
   dark: '#3a393f',
   primary: '#5a23c8',
   warning: '#ffc107',
+  danger: '#721c24',
   white: '#fff',
   gray: '',
 };
