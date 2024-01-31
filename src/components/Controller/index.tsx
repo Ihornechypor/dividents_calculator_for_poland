@@ -14,7 +14,7 @@ import { initialDividendState, dividendsReportState } from '../../initialStates'
 import { ResultTable } from '../ResultTable';
 import { ResultTotal } from '../ResultTotal';
 import { dividendCalulations } from '../../helpers/dividendCalulations';
-import { InputSelect, InputWrapper, Button, DatePic } from '../UI';
+import { InputSelect, InputField, Button, DatePic } from '../UI';
 
 export const Controller = () => {
   const [dividendData, setDividendData] = useState<dividendDataSateTypes>({
@@ -75,7 +75,7 @@ export const Controller = () => {
   return (
     <Styled.ControllerBox>
       <form onSubmit={handleTaxCalucation}>
-        <InputWrapper
+        <InputField
           text="Dividend company"
           type="text"
           placeholder="Divident company"
@@ -84,8 +84,8 @@ export const Controller = () => {
           id="company"
           disabled={dividendCalculated}
         />
-        <InputWrapper
-          text="Dividend ammount"
+        <InputField
+          text="Dividend in foreign currency"
           type="number"
           placeholder="Dividend ammount"
           onChange={handleDividentData}
@@ -93,7 +93,7 @@ export const Controller = () => {
           id="ammount"
           disabled={dividendCalculated}
         />
-        <InputWrapper
+        <InputField
           text="Divident tax in %"
           type="number"
           placeholder="Divident tax in %"
@@ -121,12 +121,12 @@ export const Controller = () => {
         </div>
         <div>
           <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
-            Calculate dividend
+            Dodaj dywidende do tablicy
           </Button>
         </div>
       </form>
       <Button onClick={handleReset} disabled={!dividendCalculated}>
-        Add new dividend
+        Dodaj nową dividende
       </Button>
       <ResultTotal dividendsReport={dividendsReport} />
       <ResultTable dividendsTotal={dividendsTotal} handleRemove={handleRemove} />

@@ -12,13 +12,6 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
   
-  html {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
   html,
   body {
     width: 100%;
@@ -31,12 +24,15 @@ const GlobalStyle = createGlobalStyle`
     font-size: ${theme.global.fontSize};
     line-height: ${theme.global.lineHeight};
     color: ${theme.global.textColor};
-    text-align: left;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    height: 100vh;
   }
   
+  #root {
+    display: flex;
+    flex-direction: column;
+  }
+
   a {
     color: ${theme.global.textColor};
   }

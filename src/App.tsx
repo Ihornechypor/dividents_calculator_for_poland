@@ -1,6 +1,7 @@
 import { Main } from './components/Layout';
 import GlobalStyle from './styles/globalStyles';
 import { Controller } from './components/Controller';
+import { Footer } from './components/Layout/Footer';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <p>Kalkulator obliczy</p>
         <Controller />
       </Main>
+      <Footer />
     </>
   );
 }

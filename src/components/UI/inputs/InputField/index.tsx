@@ -1,12 +1,13 @@
 import { inputWrapperTypes } from '../../../../types';
+import * as Styled from '../inputCommonStyles';
 
-export const InputWrapper = ({ text, type, placeholder, value, id, disabled, onChange }: inputWrapperTypes) => {
+export const InputField = ({ text, type, placeholder, value, id, disabled, onChange }: inputWrapperTypes) => {
   return (
-    <div>
+    <Styled.InputWrapper>
       <label>
         {text} <br />
         <input type={type} placeholder={placeholder} onChange={onChange} value={value} id={id} disabled={disabled} />
       </label>
-    </div>
+    </Styled.InputWrapper>
   );
 };

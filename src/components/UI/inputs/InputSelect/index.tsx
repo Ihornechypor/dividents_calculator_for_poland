@@ -1,8 +1,9 @@
 import { inputSectionTypes } from '../../../../types';
+import * as Styled from '../inputCommonStyles';
 
 export const InputSelect = ({ text, name, id, disabled, onChange, options }: inputSectionTypes) => {
   return (
-    <div>
+    <Styled.InputWrapper>
       <p>{text}</p>
       <select name={name} onChange={onChange} id={id} disabled={disabled}>
         {options.map((item) => (
@@ -11,6 +12,6 @@ export const InputSelect = ({ text, name, id, disabled, onChange, options }: inp
           </option>
         ))}
       </select>
-    </div>
+    </Styled.InputWrapper>
   );
 };
