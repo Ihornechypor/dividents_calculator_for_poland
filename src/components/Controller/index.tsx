@@ -130,12 +130,6 @@ export const Controller = () => {
           Dodaj nową dividendę
         </Button>
       </div>
-      <div style={{ textAlign: 'right', marginTop: 10 }}>
-        <Button variant="primary" onClick={() => alert(JSON.stringify(dividendData))}>
-          Dodaj nową dividendę
-        </Button>
-      </div>
-
       <ResultTotal dividendsReport={dividendsReport} />
       <ResultTable dividendsTotal={dividendsTotal} handleRemove={handleRemove} />
     </Styled.ControllerBox>
