@@ -131,7 +131,7 @@ export const Controller = () => {
         </Button>
       </div>
       <div style={{ textAlign: 'right', marginTop: 10 }}>
-        <Button variant="primary" onClick={() => alert('11')}>
+        <Button variant="primary" onClick={() => alert(JSON.stringify(dividendsTotal))}>
           Dodaj nową dividendę
         </Button>
       </div>
