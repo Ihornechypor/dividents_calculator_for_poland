@@ -130,6 +130,11 @@ export const Controller = () => {
           Dodaj nową dividendę
         </Button>
       </div>
+      <div style={{ textAlign: 'right', marginTop: 10 }}>
+        <Button variant="primary" onClick={() => alert('11')}>
+          Dodaj nową dividendę
+        </Button>
+      </div>
 
       <ResultTotal dividendsReport={dividendsReport} />
       <ResultTable dividendsTotal={dividendsTotal} handleRemove={handleRemove} />
