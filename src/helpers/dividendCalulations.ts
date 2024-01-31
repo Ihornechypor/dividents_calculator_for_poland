@@ -10,6 +10,9 @@ export const dividendCalulations = (data: apiDataTypes, dividendData: dividendDa
   const taxBaseLocal = dividendData.ammount * data.currencyRate;
   const taxLocal = taxBaseLocal * POLAND_TAX_RATE;
   const taxPaidLocal = taxBaseLocal * taxNumToPercent;
+  const taxForReportCell = taxBasePercents ? taxLocal : taxBaseLocal * taxNumToPercent;
+  console.log(taxForReportCell);
+
   const taxNeedToPayLocal = taxNumToPercent >= POLAND_TAX_RATE ? 0 : taxLocal - taxPaidLocal;
 
   const taxAmmountLocal = dividendData.ammount * POLAND_TAX_RATE;
@@ -24,6 +27,7 @@ export const dividendCalulations = (data: apiDataTypes, dividendData: dividendDa
     taxBaseLocal,
     taxLocal,
     taxPaidLocal,
+    taxForReportCell,
     taxNeedToPayLocal,
     taxAmmountLocal,
     taxAmmountForeignPaid,

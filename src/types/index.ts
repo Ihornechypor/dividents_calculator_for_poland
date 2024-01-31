@@ -33,6 +33,7 @@ export type resultTableComputedTypes = {
   taxBaseLocal: number;
   taxLocal: number;
   taxPaidLocal: number;
+  taxForReportCell: number;
   taxNeedToPayLocal: number;
   taxAmmountLocal: number;
   taxAmmountForeignPaid: number;

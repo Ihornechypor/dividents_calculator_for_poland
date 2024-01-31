@@ -23,9 +23,10 @@ export const ResultTable = ({
             <th>Divident price (Foreign currecy)</th>
             <th>Foreign tax</th>
             <th>Local tax base (PLN)</th>
-            <th>Local tax (PLN)</th>
-            <th>Local tax Paid (PLN)</th>
-            <th>Local need to pay (PLN)</th>
+            <th>Local tax paid abroad (PLN)</th>
+            <th>Local tax line 34(PLN)</th>
+            <th>Local tax for line 35</th>
+            <th>Local need to pay line 36(PLN)</th>
             <th>Local tax ammount (Foreign currecy)</th>
             <th>Foreign tax payed (Foreign currecy)</th>
             <th colSpan={2}>Foreign taxt need to pay (Foreign currecy)</th>
@@ -42,11 +43,12 @@ export const ResultTable = ({
                   <td>{item.currencyRate}</td>
                   <td>{item.ammount}</td>
                   <td>
-                    {item.tax}% {item.taxBasePercents && `(real taxt percent ${POLAND_TAX_RATE})`}
+                    {item.tax}% {item.taxBasePercents && `(real taxt percent ${POLAND_TAX_RATE * 100} %)`}
                   </td>
                   <td>{item.taxBaseLocal.toFixed(TO_FIXED_VALUE)}</td>
-                  <td>{item.taxLocal.toFixed(TO_FIXED_VALUE)}</td>
                   <td>{item.taxPaidLocal.toFixed(TO_FIXED_VALUE)}</td>
+                  <td>{item.taxLocal.toFixed(TO_FIXED_VALUE)}</td>
+                  <td>{item.taxForReportCell.toFixed(TO_FIXED_VALUE)}</td>
                   <td>{item.taxNeedToPayLocal.toFixed(TO_FIXED_VALUE)}</td>
                   <td>{item.taxAmmountLocal.toFixed(TO_FIXED_VALUE)}</td>
                   <td>{item.taxAmmountForeignPaid.toFixed(TO_FIXED_VALUE)}</td>
