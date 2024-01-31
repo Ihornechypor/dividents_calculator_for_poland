@@ -10,13 +10,10 @@ import {
   dividendsReportTypes,
   resultTableTypes,
 } from '../../types';
-import { isAllDataFilled } from '../../helpers/isAllDataFilled';
-import { API_DATE_FORMAT, TO_FIXED_VALUE } from '../../consts';
+import { API_DATE_FORMAT } from '../../consts';
 import { getCurrecyRate } from '../../api/getCurrencyRate';
-import { reformatDate } from '../../helpers/reformatDate';
-import { updateSubDays } from '../../helpers/updateSubDays';
+import { reformatDate, updateSubDays, totalCalculations, minusDay, isAllDataFilled } from '../../helpers';
 import { initialDividendState, dividendsReportState } from '../../initialStates';
-import { minusDay } from '../../helpers/minusDay';
 import { ResultTable } from '../ResultTable';
 import { ResultTotal } from '../ResultTotal';
 import { dividendCalulations } from '../../helpers/dividendCalulations';
@@ -32,24 +29,19 @@ export const Controller = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [dividendsReport, setDividendsReport] = useState<dividendsReportTypes>({ ...dividendsReportState });
   const [dividendsTotal, setDividendsTotal] = useState<resultTableTypes[]>([]);
+
   useEffect(() => {
-    const totalTax = dividendsTotal.reduce((sum, item) => sum + item.taxLocal, 0).toFixed(TO_FIXED_VALUE);
-    const totalTaxPaid = dividendsTotal.reduce((sum, item) => sum + item.taxPaidLocal, 0).toFixed(TO_FIXED_VALUE);
-    const totalNeedToPay = dividendsTotal
-      .reduce((sum, item) => sum + item.taxNeedToPayLocal, 0)
-      .toFixed(TO_FIXED_VALUE);
-    setDividendsReport({ totalTax, totalTaxPaid, totalNeedToPay });
+    setDividendsReport({ ...totalCalculations(dividendsTotal) });
   }, [dividendsTotal]);
 
   const handleDividentData = (e?: inputTypes, date?: dateFormatTypes) => {
+    console.log(e);
     e &&
       setDividendData((prev) => ({
         ...prev,
         [e.target.id]: e.target.value,
       }));
     if (date) {
-      console.log(e);
-
       date && setDividendData((prev) => ({ ...prev, date }));
     }
   };
@@ -115,7 +107,7 @@ export const Controller = () => {
           type="number"
           placeholder="Dividend ammount"
           onChange={handleDividentData}
-          value={dividendData.company}
+          value={dividendData.ammount}
           id="ammount"
           disabled={dividendCalculated}
         />
