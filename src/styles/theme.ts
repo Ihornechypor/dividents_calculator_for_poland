@@ -7,7 +7,7 @@ export const themeColors = {
 };
 
 export const themeFonts = {
-  mainFont: "'Inter',Arial, sans-serif",
+  mainFont: "'Roboto',Arial, sans-serif",
   memFont: "'Londrina Outline', cursive;",
 };
 

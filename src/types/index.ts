@@ -1,19 +1,19 @@
 export type inputTypes = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | null;
 
-export type dateFormat = Date | null;
+export type dateFormatTypes = Date | null;
 
 export type dividendDataSateTypes = {
   company: string;
   ammount: number;
   tax: number;
   currency: string;
-  date: dateFormat;
+  date: dateFormatTypes;
 };
 
 export type dividendsReportTypes = {
-  totalTax: number;
-  totalTaxPaid: number;
-  totalNeedToPay: number;
+  totalTax: string;
+  totalTaxPaid: string;
+  totalNeedToPay: string;
 };
 
 export type apiTypes = {
@@ -22,7 +22,24 @@ export type apiTypes = {
   currency: string;
 };
 
-export type apiData = {
+export type apiDataTypes = {
   currencyRate: number | 0;
   currencyDate: string | null;
 };
+
+export type resultTableComputedTypes = {
+  id: string;
+  taxBasePercents: boolean;
+  taxBaseLocal: number;
+  taxLocal: number;
+  taxPaidLocal: number;
+  taxForReportCell: number;
+  taxNeedToPayLocal: number;
+  taxAmmountLocal: number;
+  taxAmmountForeignPaid: number;
+  taxAmmountForeignToPay: number;
+};
+
+export type resultTableTypes = dividendDataSateTypes & apiDataTypes & resultTableComputedTypes;
+
+export * from './uiTypes';
