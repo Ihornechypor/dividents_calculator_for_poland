@@ -11,11 +11,13 @@ export const fetchData = async (dividendData: dividendDataSateTypes) => {
       const data = await getCurrecyRate(currentDate, dividendData.currency);
 
       if (data.currencyDate) {
+        alert(data);
         return data;
       } else {
         console.error('Empty or invalid API response');
       }
     } catch (error) {
+      alert(error);
       const subDay = updateSubDays(currentDate, API_DATE_FORMAT, 1);
       currentDate = subDay && reformatDate(subDay, API_DATE_FORMAT);
 

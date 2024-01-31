@@ -57,7 +57,6 @@ export const Controller = () => {
       setIsFetching(false);
     } else {
       setIsFetching(false);
-      alert('Failed to fetch data from API');
       console.error('Failed to fetch data from API');
     }
   };
