@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { inputTypes } from '..';
+import { dateFormatTypes, inputTypes } from '..';
 
 export type inputWrapperTypes = {
   text: string;
@@ -24,4 +24,12 @@ export type ButtonTypes = {
   children: ReactNode;
   disabled: boolean;
   onClick?: () => void;
+};
+
+export type DatePicTypes = {
+  label: string;
+  selected: dateFormatTypes;
+  onChange: (date: dateFormatTypes) => void;
+  maxDate: dateFormatTypes;
+  disabled: boolean;
 };

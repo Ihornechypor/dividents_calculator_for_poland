@@ -139,14 +139,6 @@ export const Controller = () => {
             maxDate={maxDate}
             disabled={dividendCalculated}
           />
-          <label>
-            <DatePicker
-              selected={dividendData.date}
-              onChange={(date) => handleDividentData(null, date)}
-              maxDate={maxDate}
-              disabled={dividendCalculated}
-            />
-          </label>
         </div>
         <div>
           <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
