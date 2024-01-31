@@ -17,7 +17,7 @@ import { initialDividendState, dividendsReportState } from '../../initialStates'
 import { ResultTable } from '../ResultTable';
 import { ResultTotal } from '../ResultTotal';
 import { dividendCalulations } from '../../helpers/dividendCalulations';
-import { InputSelect, InputWrapper } from '../UI';
+import { InputSelect, InputWrapper, Button, DatePic } from '../UI';
 
 const maxDate = new Date();
 
@@ -132,24 +132,31 @@ export const Controller = () => {
           ]}
         />
         <div>
-          <p>Set divident payment day</p>
-          <DatePicker
+          <DatePic
+            label="Set divident payment day"
             selected={dividendData.date}
-            onChange={(date) => handleDividentData(null, date)}
+            onChange={(date: dateFormatTypes) => handleDividentData(null, date)}
             maxDate={maxDate}
             disabled={dividendCalculated}
           />
+          <label>
+            <DatePicker
+              selected={dividendData.date}
+              onChange={(date) => handleDividentData(null, date)}
+              maxDate={maxDate}
+              disabled={dividendCalculated}
+            />
+          </label>
         </div>
         <div>
-          <button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
+          <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
             Calculate divident
-          </button>
+          </Button>
         </div>
       </form>
-      <button onClick={handleReset} disabled={!dividendCalculated}>
+      <Button onClick={handleReset} disabled={!dividendCalculated}>
         Add new dividend
-      </button>
-
+      </Button>
       <ResultTotal dividendsReport={dividendsReport} />
       <ResultTable dividendsTotal={dividendsTotal} handleRemove={handleRemove} />
     </Styled.ControllerBox>
