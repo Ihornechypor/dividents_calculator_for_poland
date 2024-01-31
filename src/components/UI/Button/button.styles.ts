@@ -1,13 +1,16 @@
 import styled, { css } from 'styled-components';
-import { themeColors } from '../../../styles/theme';
+import theme, { themeColors } from '../../../styles/theme';
+import { ButtonTypes } from '../../../types';
 
 type ButtonProps = {
   disabled?: boolean;
-  type?: 'primary' | 'danger' | null;
+  variant?: ButtonTypes['variant'];
 };
 
 const Button = styled.button<ButtonProps>`
   font-size: 14px;
+  font-weight: bold;
+  color: ${themeColors.white};
   padding: 6px 12px;
   margin-bottom: 0;
   display: inline-block;
@@ -16,10 +19,11 @@ const Button = styled.button<ButtonProps>`
   user-select: none;
   background-image: none;
   border: 1px solid transparent;
-  transition: all;
+  transition: all 0.5s;
+  border-radius: ${theme.global.borderRadius};
 
   ${(props) =>
-    props.type === 'primary' &&
+    props.variant === 'primary' &&
     css`
       background-color: ${themeColors.primary};
       &:hover,
@@ -29,20 +33,25 @@ const Button = styled.button<ButtonProps>`
     `}
 
   ${(props) =>
-    props.type === 'danger' &&
+    props.variant === 'danger' &&
     css`
       background-color: ${themeColors.danger};
       &:hover,
       &:focus {
-        background-color: ${themeColors.primary};
+        background-color: ${themeColors.dangerDarken};
       }
     `}
 
   ${(props) =>
     props.disabled &&
     css`
+      background: ${themeColors.gray} !important;
       pointer-events: none;
+      opacity: 0.3;
     `}
+
+  &:disabled {
+  }
 `;
 
 export { Button };

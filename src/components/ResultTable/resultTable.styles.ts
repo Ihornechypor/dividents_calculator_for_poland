@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { themeColors } from '../../styles/theme';
+import theme, { themeColors } from '../../styles/theme';
 
 type ResultTableInfoProps = {
   type: 'warning' | null;
@@ -15,10 +15,11 @@ const ResultTableInfo = styled.p<ResultTableInfoProps>`
   align-items: center;
   &:before {
     content: '';
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     margin-right: 10px;
     display: inline-block;
+    border-radius: ${theme.global.borderRadius};
     ${(props) => props.type === 'warning' && `background-color: ${themeColors.warning}`}
   }
 `;

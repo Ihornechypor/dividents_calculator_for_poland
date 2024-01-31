@@ -119,7 +119,7 @@ export const Controller = () => {
             disabled={dividendCalculated}
           />
         </div>
-        <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated}>
+        <Button disabled={isFetching || isAllDataFilled(dividendData) || dividendCalculated} type="primary">
           Dodaj dywidendę do tablicy
         </Button>
       </form>

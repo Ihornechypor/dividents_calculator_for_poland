@@ -1,9 +1,10 @@
 import { ButtonTypes } from '../../../types';
 import * as Styled from './button.styles';
 
-export const Button = ({ children, disabled, onClick }: ButtonTypes) => (
+export const Button = ({ children, disabled, onClick, variant }: ButtonTypes) => (
   <Styled.Button
     disabled={disabled}
+    variant={variant}
     {...(onClick
       ? {
           onClick: () => {

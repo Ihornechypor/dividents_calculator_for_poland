@@ -1,6 +1,7 @@
 import { API_DATE_FORMAT, POLAND_TAX_RATE, TO_FIXED_VALUE } from '../../consts';
 import { reformatDate } from '../../helpers';
 import { resultTableTypes } from '../../types';
+import { Button } from '../UI';
 import * as Styled from './resultTable.styles';
 export const ResultTable = ({
   dividendsTotal,
@@ -13,7 +14,7 @@ export const ResultTable = ({
     <Styled.ResultTableSection>
       <h2>Tablica z dywidendami</h2>
       <Styled.ResultTableInfo type="warning">
-        Kolor ten wskazuje, że odsetek płatności dokonanych za granicą jest wyższy niż w przypadku transakcji krajowych.
+        Kolor ten wskazuje, że wartość płatności dokonanych za granicą jest wyższy niż w Polsce.
       </Styled.ResultTableInfo>
       <Styled.ResultTable>
         <thead>
@@ -57,7 +58,9 @@ export const ResultTable = ({
                   <td>{item.taxAmmountForeignPaid.toFixed(TO_FIXED_VALUE)}</td>
                   <td>{item.taxAmmountForeignToPay.toFixed(TO_FIXED_VALUE)}</td>
                   <td style={{ textAlign: 'center' }}>
-                    <button onClick={() => handleRemove(item.id)}>X</button>
+                    <Button onClick={() => handleRemove(item.id)} variant="danger">
+                      X
+                    </Button>
                   </td>
                 </Styled.ResultTableTr>
               ))
