@@ -1,6 +1,6 @@
 export const getCurrecyRate = async (date: string | null, currency: string) => {
   try {
-    const rsp = await fetch(`http://api.nbp.pl/api/exchangerates/rates/a/${currency}/${date}/?format=json`);
+    const rsp = await fetch(`https://api.nbp.pl/api/exchangerates/rates/a/${currency}/${date}/?format=json`);
     const data = await rsp.json();
 
     return {
@@ -8,7 +8,7 @@ export const getCurrecyRate = async (date: string | null, currency: string) => {
       currencyRate: data.rates[0].mid,
     };
   } catch (error) {
-    alert(error);
+    console.error('Error making API call:', error);
     throw error;
   }
 };

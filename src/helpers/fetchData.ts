@@ -6,7 +6,6 @@ import { dividendDataSateTypes } from '../types';
 export const fetchData = async (dividendData: dividendDataSateTypes) => {
   let currentDate = minusDay(dividendData.date, 1);
   let retryCount = 0;
-  alert(currentDate);
   while (retryCount < 10) {
     try {
       const data = await getCurrecyRate(currentDate, dividendData.currency);
