@@ -72,6 +72,12 @@ export const Controller = () => {
     setDividendCalculated(false);
   };
 
+  const handleHardReset = () => {
+    handleReset();
+    setDividendsTotal([]);
+    localStorage.clear();
+  };
+
   return (
     <Styled.ControllerBox>
       <form onSubmit={handleTaxCalucation}>
@@ -130,6 +136,9 @@ export const Controller = () => {
       </Button>
       <ResultTotal dividendsReport={dividendsReport} />
       <ResultTable dividendsTotal={dividendsTotal} handleRemove={handleRemove} />
+      <Button onClick={handleHardReset} variant="danger">
+        Zresetować wszystko
+      </Button>
     </Styled.ControllerBox>
   );
 };
