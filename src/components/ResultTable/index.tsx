@@ -22,7 +22,7 @@ export const ResultTable = ({
         Kolor ten wskazuje, że wartość płatności za granicą jest wyższa niż w Polsce.
       </Styled.ResultTableInfo>
       <DownloadTableExcel filename="dywidendy" sheet="users" currentTableRef={tableRef.current}>
-        <Button variant="primary"> Generuj xls plik </Button>
+        <Button variant="primary">Wgenerować xls plik </Button>
       </DownloadTableExcel>
       <Styled.ResultTableWrapper>
         <Styled.ResultTable ref={tableRef}>
