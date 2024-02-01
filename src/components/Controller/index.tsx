@@ -44,6 +44,12 @@ export const Controller = () => {
   const handleDividendCalculations = (data: apiDataTypes) =>
     setDividendsTotal((prev) => [...prev, { ...dividendCalulations(data, dividendData) }]);
 
+  const handleReset = () => {
+    setIsFetching(false);
+    setDividendCalculated(false);
+    setDividendData(initialDividendState);
+  };
+
   const handleTaxCalucation = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFetching(true);
@@ -56,15 +62,9 @@ export const Controller = () => {
       setDividendData({ ...initialDividendState });
       setIsFetching(false);
     } else {
-      setIsFetching(false);
-      console.error('Failed to fetch data from API');
+      handleReset();
+      alert('Nie udaoło się pobrać danę z API wprowadź i sprawdź wprowadzone dane, lub sprobój ponowie za jakiś czas');
     }
-  };
-
-  const handleReset = () => {
-    setIsFetching(false);
-    setDividendCalculated(false);
-    setDividendData(initialDividendState);
   };
 
   const handleRemove = (id: string) => {
