@@ -38,7 +38,7 @@ const inputWrapperCommpon = css<inputWrapperCommponProps>`
     `}
 `;
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.div<inputWrapperCommponProps>`
   ${inputWrapperCommpon}
 `;
 
