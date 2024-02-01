@@ -25,6 +25,7 @@ const ResultTableInfo = styled.p<ResultTableInfoProps>`
 `;
 
 const ResultTableWrapper = styled.div`
+  margin-top: 10px;
   overflow-x: auto;
 `;
 
